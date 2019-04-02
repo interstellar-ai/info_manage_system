@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/collect.png</file>
+        <file>icon/people.png</file>
+        <file>icon/people_arrow_left.png</file>
+        <file>icon/people_arrow_right.png</file>
+        <file>icon/credit_card_97.02934537246px_1229314_easyicon.net.png</file>
+        <file>icon/credit_card_129.37246049661px_1229314_easyicon.net.png</file>
+        <file>icon/credit_card_172.49661399549px_1229314_easyicon.net.png</file>
+        <file>icon/access_close_exit_logout_sign_out_128px_1225473_easyicon.net.png</file>
+        <file>icon/access_enter_input_login_sign_in_128px_1225471_easyicon.net.png</file>
+        <file>icon/search_128px_1232024_easyicon.net.png</file>
+        <file>icon/search_128px_1232043_easyicon.net.png</file>
+    </qresource>
+</RCC>
