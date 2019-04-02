@@ -138,8 +138,8 @@
          </property>
          <property name="font">
           <font>
-           <family>宋体</family>
-           <pointsize>20</pointsize>
+           <family>Abyssinica SIL</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="text">
