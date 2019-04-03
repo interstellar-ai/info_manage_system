@@ -20,7 +20,7 @@
    <string>Graduation_Project</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="software_icon.qrc">
+   <iconset resource="icon.qrc">
     <normaloff>:/icon/collect.png</normaloff>:/icon/collect.png</iconset>
   </property>
   <property name="styleSheet">
@@ -73,7 +73,7 @@
           <string>出入户</string>
          </property>
          <property name="icon">
-          <iconset resource="software_icon.qrc">
+          <iconset resource="icon.qrc">
            <normaloff>:/icon/people.png</normaloff>:/icon/people.png</iconset>
          </property>
          <property name="iconSize">
@@ -111,8 +111,8 @@
           <string>借卡</string>
          </property>
          <property name="icon">
-          <iconset resource="software_icon.qrc">
-           <normaloff>:/icon/credit_card_129.37246049661px_1229314_easyicon.net.png</normaloff>:/icon/credit_card_129.37246049661px_1229314_easyicon.net.png</iconset>
+          <iconset resource="icon.qrc">
+           <normaloff>:/icon/credit_card_172.49661399549px_1229314_easyicon.net.png</normaloff>:/icon/credit_card_172.49661399549px_1229314_easyicon.net.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -146,7 +146,7 @@
           <string>查询</string>
          </property>
          <property name="icon">
-          <iconset resource="software_icon.qrc">
+          <iconset resource="icon.qrc">
            <normaloff>:/icon/search_128px_1232043_easyicon.net.png</normaloff>:/icon/search_128px_1232043_easyicon.net.png</iconset>
          </property>
          <property name="iconSize">
@@ -253,7 +253,7 @@
      <x>0</x>
      <y>0</y>
      <width>992</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -283,7 +283,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="software_icon.qrc"/>
+  <include location="icon.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -19,6 +19,7 @@ void ACCOUNT_CARD_BORROW_PAGE::init_in_out_account_page(){
     ui->stu_ID->setEnabled(initialization);
     ui->stu_sex->setEnabled(initialization);
     ui->stu_name->setEnabled(initialization);
+    ui->stu_college->setEnabled(initialization);
     ui->stu_class->setEnabled(initialization);
     ui->stu_indentification_number->setEnabled(initialization);
     ui->borrow_time->setEnabled(initialization);
@@ -37,6 +38,7 @@ void ACCOUNT_CARD_BORROW_PAGE::on_borrowButton_clicked()
     ui->stu_ID->setEnabled(initialization);
     ui->stu_sex->setEnabled(!initialization);
     ui->stu_name->setEnabled(initialization);
+    ui->stu_college->setEnabled(!initialization);
     ui->stu_class->setEnabled(!initialization);
     ui->stu_indentification_number->setEnabled(!initialization);
     ui->borrow_time->setEnabled(!initialization);
@@ -53,6 +55,7 @@ void ACCOUNT_CARD_BORROW_PAGE::empty_lineEdit(){
     ui->stu_ID->clear();
     ui->stu_sex->clear();
     ui->stu_name->clear();
+    ui->stu_college->clear();
     ui->stu_class->clear();
     ui->stu_indentification_number->clear();
     ui->borrow_time->clear();
@@ -66,6 +69,7 @@ void ACCOUNT_CARD_BORROW_PAGE::on_returnButton_clicked()
     ui->stu_ID->setEnabled(initialization);
     ui->stu_sex->setEnabled(!initialization);
     ui->stu_name->setEnabled(initialization);
+    ui->stu_college->setEnabled(!initialization);
     ui->stu_class->setEnabled(!initialization);
     ui->stu_indentification_number->setEnabled(!initialization);
     ui->borrow_time->setEnabled(!initialization);

@@ -19,8 +19,10 @@ void IN_OUT_ACCOUNT_PAGE::init_in_out_account_page(){
     ui->stu_ID->setEnabled(initialization);
     ui->stu_sex->setEnabled(initialization);
     ui->stu_name->setEnabled(initialization);
+    ui->stu_college->setEnabled(initialization);
     ui->stu_class->setEnabled(initialization);
     ui->stu_indentification_number->setEnabled(initialization);
+    ui->stu_status_of_student_status->setEnabled(initialization);
     ui->account_in_time->setEnabled(initialization);
     ui->account_out_time->setEnabled(initialization);
     ui->importButton->setEnabled(initialization);
@@ -37,8 +39,10 @@ void IN_OUT_ACCOUNT_PAGE::on_in_accountButton_clicked()
     ui->stu_ID->setEnabled(initialization);
     ui->stu_sex->setEnabled(initialization);
     ui->stu_name->setEnabled(initialization);
+    ui->stu_college->setEnabled(initialization);
     ui->stu_class->setEnabled(initialization);
     ui->stu_indentification_number->setEnabled(initialization);
+    ui->stu_status_of_student_status->setEnabled(initialization);
     ui->account_in_time->setEnabled(initialization);
     ui->account_out_time->setEnabled(!initialization);
     ui->importButton->setEnabled(initialization);
@@ -55,8 +59,10 @@ void IN_OUT_ACCOUNT_PAGE::on_out_accountButton_clicked()
     ui->stu_ID->setEnabled(initialization);
     ui->stu_sex->setEnabled(!initialization);
     ui->stu_name->setEnabled(initialization);
+    ui->stu_college->setEnabled(!initialization);
     ui->stu_class->setEnabled(!initialization);
     ui->stu_indentification_number->setEnabled(!initialization);
+    ui->stu_status_of_student_status->setEnabled(!initialization);
     ui->account_in_time->setEnabled(!initialization);
     ui->account_out_time->setEnabled(!initialization);
     ui->importButton->setEnabled(initialization);
@@ -84,8 +90,10 @@ void IN_OUT_ACCOUNT_PAGE::empty_lineEdit(){
     ui->stu_ID->clear();
     ui->stu_sex->clear();
     ui->stu_name->clear();
+    ui->stu_college->clear();
     ui->stu_class->clear();
     ui->stu_indentification_number->clear();
+    ui->stu_status_of_student_status->clear();
     ui->account_in_time->clear();
     ui->account_out_time->clear();
 }

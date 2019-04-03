@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>662</width>
-    <height>479</height>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>430</y>
+     <y>520</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -73,7 +73,7 @@
     <string>借取</string>
    </property>
    <property name="icon">
-    <iconset resource="software_icon.qrc">
+    <iconset resource="icon.qrc">
      <normaloff>:/icon/access_close_exit_logout_sign_out_128px_1225473_easyicon.net.png</normaloff>:/icon/access_close_exit_logout_sign_out_128px_1225473_easyicon.net.png</iconset>
    </property>
    <property name="iconSize">
@@ -114,7 +114,7 @@
     <string>归还</string>
    </property>
    <property name="icon">
-    <iconset resource="software_icon.qrc">
+    <iconset resource="icon.qrc">
      <normaloff>:/icon/access_enter_input_login_sign_in_128px_1225471_easyicon.net.png</normaloff>:/icon/access_enter_input_login_sign_in_128px_1225471_easyicon.net.png</iconset>
    </property>
    <property name="iconSize">
@@ -137,7 +137,7 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>430</y>
+     <y>520</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -156,7 +156,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>430</y>
+     <y>520</y>
      <width>191</width>
      <height>41</height>
     </rect>
@@ -171,13 +171,13 @@
     <string>批量导入</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget_2" native="true">
+  <widget class="QPushButton" name="searchButton">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>60</y>
-     <width>171</width>
-     <height>342</height>
+     <x>470</x>
+     <y>110</y>
+     <width>181</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -186,7 +186,26 @@
      <pointsize>20</pointsize>
     </font>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_5">
+   <property name="text">
+    <string>查询</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>70</y>
+     <width>171</width>
+     <height>430</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label_9">
       <property name="font">
@@ -223,6 +242,19 @@
       </property>
       <property name="text">
        <string>学号：</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_26">
+      <property name="font">
+       <font>
+        <family>宋体</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>学院：</string>
       </property>
      </widget>
     </item>
@@ -293,16 +325,16 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="widget_3" native="true">
+  <widget class="QWidget" name="widget_4" native="true">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>100</y>
+     <x>160</x>
+     <y>120</y>
      <width>295</width>
-     <height>309</height>
+     <height>390</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QLineEdit" name="stu_name">
       <property name="font">
@@ -315,6 +347,16 @@
     </item>
     <item>
      <widget class="QLineEdit" name="stu_ID">
+      <property name="font">
+       <font>
+        <family>宋体</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="stu_college">
       <property name="font">
        <font>
         <family>宋体</family>
@@ -375,28 +417,9 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="searchButton">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>110</y>
-     <width>181</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>宋体</family>
-     <pointsize>20</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>查询</string>
-   </property>
-  </widget>
  </widget>
  <resources>
-  <include location="software_icon.qrc"/>
+  <include location="icon.qrc"/>
  </resources>
  <connections/>
 </ui>
