@@ -20,15 +20,16 @@ private slots:
 
     void on_returnButton_clicked();
 
-    void on_write_concel_Button_clicked();
-
     void on_searchButton_clicked();
+
+    void on_write_concelButton_clicked();
 
 private:
     Ui::ACCOUNT_CARD_BORROW_PAGE *ui;
     void init_in_out_account_page();
     void empty_lineEdit();
     void restore_lineEdit_and_PushBuuton();
+    void set_pushButton();
 };
 
 #endif // ACCOUNT_CARD_BORROW_PAGE_H

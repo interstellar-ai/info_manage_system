@@ -31,6 +31,9 @@ private slots:
     void on_searchButton_clicked();
 
 private:
+    void set_pushButton();
+
+private:
     Ui::IN_OUT_ACCOUNT_PAGE *ui;
 };
 

@@ -14,6 +14,8 @@ class SEARCH_PAGE : public QFrame
 public:
     explicit SEARCH_PAGE(QWidget *parent = nullptr);
     ~SEARCH_PAGE();
+private:
+    void set_pushuButton();
 
 private:
     Ui::SEARCH_PAGE *ui;

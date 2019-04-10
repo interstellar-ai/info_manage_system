@@ -7,11 +7,63 @@ IN_OUT_ACCOUNT_PAGE::IN_OUT_ACCOUNT_PAGE(QWidget *parent) :
 {
     ui->setupUi(this);
     init_in_out_account_page();
+    set_pushButton();
 }
 
 IN_OUT_ACCOUNT_PAGE::~IN_OUT_ACCOUNT_PAGE()
 {
     delete ui;
+}
+
+void IN_OUT_ACCOUNT_PAGE::set_pushButton(){
+    ui->in_accountButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->out_accountButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->write_OKButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->write_concelButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->importButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->readCardButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->searchButton->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->uploadPhoto->setStyleSheet(
+        "QPushButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
 }
 
 void IN_OUT_ACCOUNT_PAGE::init_in_out_account_page(){
@@ -30,6 +82,7 @@ void IN_OUT_ACCOUNT_PAGE::init_in_out_account_page(){
     ui->write_concelButton->setEnabled(initialization);
     ui->readCardButton->setEnabled(initialization);
     ui->searchButton->setEnabled(initialization);
+    ui->uploadPhoto->setEnabled(initialization);
 }
 
 void IN_OUT_ACCOUNT_PAGE::on_in_accountButton_clicked()
@@ -49,6 +102,7 @@ void IN_OUT_ACCOUNT_PAGE::on_in_accountButton_clicked()
     ui->write_OKButton->setEnabled(initialization);
     ui->write_concelButton->setEnabled(initialization);
     ui->readCardButton->setEnabled(initialization);
+    ui->uploadPhoto->setEnabled(initialization);
     empty_lineEdit();
 }
 
@@ -70,6 +124,7 @@ void IN_OUT_ACCOUNT_PAGE::on_out_accountButton_clicked()
     ui->write_concelButton->setEnabled(initialization);
     ui->readCardButton->setEnabled(initialization);
     ui->searchButton->setEnabled(initialization);
+    ui->uploadPhoto->setEnabled(!initialization);
     empty_lineEdit();
 }
 
@@ -101,4 +156,5 @@ void IN_OUT_ACCOUNT_PAGE::empty_lineEdit(){
 void IN_OUT_ACCOUNT_PAGE::on_searchButton_clicked()
 {
     ui->write_OKButton->setEnabled(true);
+    ui->account_out_time->setEnabled(true);
 }

@@ -23,6 +23,9 @@ private slots:
     void on_search_clicked();
 
 private:
+    void set_pushButton();
+
+private:
     Ui::MainWindow *ui;
 };
 

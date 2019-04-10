@@ -10,5 +10,6 @@
         <file>icon/people_arrow_left.png</file>
         <file>icon/people_arrow_right.png</file>
         <file>icon/search_128px_1232043_easyicon.net.png</file>
+        <file>icon/face_photo.png</file>
     </qresource>
 </RCC>
