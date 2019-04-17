@@ -6,12 +6,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("info_manage_system");
     setWindowState(Qt::WindowMaximized);
     set_pushButton();
     ui->in_out_account->setEnabled(false);
     ui->account_card_borrow->setEnabled(false);
     ui->search->setEnabled(false);
     init();
+    connect_database();
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +24,21 @@ MainWindow::~MainWindow()
 void MainWindow::init(){
     connect(ui->log_in_page, &Login_page::login_succsessfully,
             this, &MainWindow::restoreToolButton);
+}
+
+void MainWindow::connect_database(){
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    qDebug() << db.isValid();
+//    db.setDatabaseName("mysql");
+//    db.setUserName("root");
+//    db.setPassword("rootpassword");
+//    bool ok = db.open();
+//    if (ok){
+//        QMessageBox::information(this, "infor", "open successfully");
+//    }
+//    else {
+//        QMessageBox::information(this, "infor", "open failed");
+//    }
 }
 
 void MainWindow::restoreToolButton(){

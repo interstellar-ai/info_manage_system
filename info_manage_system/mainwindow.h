@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlDatabase>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +25,8 @@ private slots:
     void on_account_card_borrow_clicked();
 
     void on_search_clicked();
+
+    void connect_database();
 
 private:
     void set_pushButton();

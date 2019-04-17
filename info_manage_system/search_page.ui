@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1107</width>
-    <height>764</height>
+    <width>927</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_16">
+  <layout class="QHBoxLayout" name="horizontalLayout_17">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -26,13 +26,26 @@
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>姓名：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="stu_name"/>
+              <widget class="QLineEdit" name="stu_name">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -40,13 +53,26 @@
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
               <widget class="QLabel" name="label_2">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>学号：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="stu_ID"/>
+              <widget class="QLineEdit" name="stu_ID">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -54,27 +80,26 @@
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="QLabel" name="label_7">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>身份证：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="stu_indentification_number"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>班级：</string>
+              <widget class="QLineEdit" name="stu_indentification_number">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
                </property>
               </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="stu_class"/>
              </item>
             </layout>
            </item>
@@ -86,13 +111,26 @@
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
               <widget class="QLabel" name="label_5">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>性别：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="stu_sex"/>
+              <widget class="QLineEdit" name="stu_sex">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -100,27 +138,138 @@
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <widget class="QLabel" name="label_3">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>学院：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="stu_college"/>
+              <widget class="QLineEdit" name="stu_college">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QLabel" name="label_8">
+              <widget class="QLabel" name="label_4">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
-                <string>学籍情况：</string>
+                <string>班级  ：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="stu_status_of_student_status"/>
+              <widget class="QLineEdit" name="stu_class">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="font">
+              <font>
+               <family>宋体</family>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>学籍情况：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="stu_status_of_student_status">
+             <property name="font">
+              <font>
+               <family>宋体</family>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QLabel" name="label_9">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>迁入时间：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="account_in_time">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QLabel" name="label_10">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>迁出时间：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="account_out_time">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -129,44 +278,29 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <item>
-              <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>迁入时间：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="account_in_time"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
-             <item>
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>迁出时间：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="account_out_time"/>
-             </item>
-            </layout>
-           </item>
-           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
               <widget class="QLabel" name="label_11">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>借取时间：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="borrow_time"/>
+              <widget class="QLineEdit" name="borrow_time">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -174,13 +308,26 @@
             <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
               <widget class="QLabel" name="label_12">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>归还时间：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="return_time"/>
+              <widget class="QLineEdit" name="return_time">
+               <property name="font">
+                <font>
+                 <family>宋体</family>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -191,7 +338,7 @@
        <item>
         <widget class="QPushButton" name="searchButton">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -202,6 +349,12 @@
            <height>80</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>宋体</family>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>查询</string>
          </property>
@@ -210,23 +363,27 @@
       </layout>
      </item>
      <item>
-      <widget class="QTextEdit" name="textEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="exportButton">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>导出</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QTextEdit" name="textEdit"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="exportButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>导出</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

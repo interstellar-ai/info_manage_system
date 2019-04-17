@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1002</width>
-    <height>755</height>
+    <height>767</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,9 +15,6 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
-  </property>
-  <property name="windowTitle">
-   <string>Graduation_Project</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icon.qrc">
@@ -336,7 +333,7 @@ border-color: darkblue;</string>
      <x>0</x>
      <y>0</y>
      <width>1002</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
