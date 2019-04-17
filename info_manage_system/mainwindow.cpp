@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowState(Qt::WindowMaximized);
     set_pushButton();
+    ui->in_out_account->setEnabled(false);
+    ui->account_card_borrow->setEnabled(false);
+    ui->search->setEnabled(false);
+    init();
 }
 
 MainWindow::~MainWindow()
@@ -15,6 +19,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::init(){
+    connect(ui->log_in_page, &Login_page::login_succsessfully,
+            this, &MainWindow::restoreToolButton);
+}
+
+void MainWindow::restoreToolButton(){
+    qDebug() << "okButton";
+    ui->in_out_account->setEnabled(true);
+    ui->account_card_borrow->setEnabled(true);
+    ui->search->setEnabled(true);
+}
 void MainWindow::set_pushButton(){
     ui->in_out_account->setStyleSheet(
         "QToolButton{ background-color : rgb(85, 170, 255);"
