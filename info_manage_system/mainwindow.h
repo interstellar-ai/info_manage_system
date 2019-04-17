@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,8 @@ private slots:
 
 private:
     void set_pushButton();
+    void init();
+    void restoreToolButton();
 
 private:
     Ui::MainWindow *ui;

@@ -29,19 +29,22 @@ SOURCES += \
         mainwindow.cpp \
     in_out_account_page.cpp \
     search_page.cpp \
-    account_card_borrow_page.cpp
+    account_card_borrow_page.cpp \
+    login_page.cpp
 
 HEADERS += \
         mainwindow.h \
     in_out_account_page.h \
     search_page.h \
-    account_card_borrow_page.h
+    account_card_borrow_page.h \
+    login_page.h
 
 FORMS += \
         mainwindow.ui \
     in_out_account_page.ui \
     search_page.ui \
-    account_card_borrow_page.ui
+    account_card_borrow_page.ui \
+    login_page.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
