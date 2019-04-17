@@ -2,6 +2,7 @@
 #define IN_OUT_ACCOUNT_PAGE_H
 
 #include <QFrame>
+#include <QtSql>
 
 namespace Ui {
 class IN_OUT_ACCOUNT_PAGE;
