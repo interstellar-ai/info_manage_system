@@ -27,22 +27,26 @@ void MainWindow::init(){
 }
 
 void MainWindow::connect_database(){
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    qDebug() << db.isValid();
-//    db.setDatabaseName("mysql");
-//    db.setUserName("root");
-//    db.setPassword("rootpassword");
-//    bool ok = db.open();
-//    if (ok){
-//        QMessageBox::information(this, "infor", "open successfully");
-//    }
-//    else {
-//        QMessageBox::information(this, "infor", "open failed");
-//    }
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setHostName("127.0.0.1");
+    db.setPort(3306);
+    db.setDatabaseName("mysql");
+    db.setUserName("root");
+    db.setPassword("root");
+    bool ok = db.open();
+    if (!ok){
+        QMessageBox::information(this, "infor", "connect failed");
+        return;
+
+    }
+    qsQuery = QSqlQuery(db);
+    QString strSqlText("SELECT * FROM user");//查询语法
+    qsQuery.prepare(strSqlText);
+    qsQuery.exec();
+    qDebug() << qsQuery.result();
 }
 
 void MainWindow::restoreToolButton(){
-    qDebug() << "okButton";
     ui->in_out_account->setEnabled(true);
     ui->account_card_borrow->setEnabled(true);
     ui->search->setEnabled(true);
@@ -82,4 +86,9 @@ void MainWindow::on_account_card_borrow_clicked()
 void MainWindow::on_search_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage3);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    db.close();
+    event->accept();
 }

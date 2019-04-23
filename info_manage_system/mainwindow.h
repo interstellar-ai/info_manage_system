@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 namespace Ui {
 class MainWindow;
@@ -32,9 +33,12 @@ private:
     void set_pushButton();
     void init();
     void restoreToolButton();
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;
+    QSqlDatabase db;
+    QSqlQuery qsQuery;
 };
 
 #endif // MAINWINDOW_H
