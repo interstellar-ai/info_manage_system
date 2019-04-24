@@ -16,7 +16,7 @@ public:
     ~Login_page();
 
 signals:
-    void login_succsessfully();
+    void login_usr_passwd(QString usr, QString passwd);
 
 private slots:
     void on_cancelButton_clicked();

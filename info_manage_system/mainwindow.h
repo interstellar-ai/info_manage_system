@@ -27,7 +27,7 @@ private slots:
 
     void on_search_clicked();
 
-    void connect_database();
+    void connect_database(QString usr, QString passwd);
 
 private:
     void set_pushButton();

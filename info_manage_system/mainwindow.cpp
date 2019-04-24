@@ -1,3 +1,16 @@
+/*********************************************************************************/
+/*
+ * 数据库创建 出入户 表
+ * create table account_in_out(
+ *  stu_name varchar(20) not null, stu_ID int primary key,
+ *  stu_college varchar(20) not null, stu_class varchar(20) not null,
+ *  stu_sex varchar(1) not null, stu_indentification_number varchar(18) not null,
+ *  stu_status_of_student_status varchar(20) not null,
+ *  account_in_time  varchar(20) not null, account_out_time varchar(20));
+ * 查看表属性
+ * show columns from account_in_out;
+*/
+/*********************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -13,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->account_card_borrow->setEnabled(false);
     ui->search->setEnabled(false);
     init();
-    connect_database();
 }
 
 MainWindow::~MainWindow()
@@ -22,34 +34,40 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::init(){
-    connect(ui->log_in_page, &Login_page::login_succsessfully,
-            this, &MainWindow::restoreToolButton);
+    connect(ui->log_in_page, &Login_page::login_usr_passwd,
+            this, &MainWindow::connect_database);
 }
 
-void MainWindow::connect_database(){
+void MainWindow::connect_database(QString usr, QString passwd){
     db = QSqlDatabase::addDatabase("QODBC");
     db.setHostName("127.0.0.1");
     db.setPort(3306);
     db.setDatabaseName("mysql");
-    db.setUserName("root");
-    db.setPassword("root");
+//    db.setUserName("root");
+//    db.setPassword("root");
+    db.setUserName(usr);
+    db.setPassword(passwd);
     bool ok = db.open();
     if (!ok){
-        QMessageBox::information(this, "infor", "connect failed");
+        QMessageBox::information(this, "infor", "connect failed username or passward error");
         return;
-
     }
-    qsQuery = QSqlQuery(db);
-    QString strSqlText("SELECT * FROM user");//查询语法
-    qsQuery.prepare(strSqlText);
-    qsQuery.exec();
-    qDebug() << qsQuery.result();
+    else {
+        qDebug() << "success";
+    }
+    restoreToolButton();
+//    qsQuery = QSqlQuery(db);
+//    QString strSqlText("SELECT * FROM user");//查询语法
+//    qsQuery.prepare(strSqlText);
+//    qsQuery.exec();
+//    qDebug() << qsQuery.result();
 }
 
 void MainWindow::restoreToolButton(){
     ui->in_out_account->setEnabled(true);
     ui->account_card_borrow->setEnabled(true);
     ui->search->setEnabled(true);
+    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
 }
 void MainWindow::set_pushButton(){
     ui->in_out_account->setStyleSheet(

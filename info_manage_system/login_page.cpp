@@ -37,5 +37,6 @@ void Login_page::on_cancelButton_clicked()
 
 void Login_page::on_okButton_clicked()
 {
-    emit login_succsessfully();
+
+    emit login_usr_passwd(ui->userName->text(), ui->password->text());
 }
