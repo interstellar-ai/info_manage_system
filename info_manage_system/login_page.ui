@@ -186,6 +186,9 @@
                 <property name="text">
                  <string>取消</string>
                 </property>
+                <property name="shortcut">
+                 <string>Esc</string>
+                </property>
                </widget>
               </item>
               <item>
@@ -204,6 +207,9 @@
                 </property>
                 <property name="text">
                  <string>确定</string>
+                </property>
+                <property name="shortcut">
+                 <string>Return</string>
                 </property>
                </widget>
               </item>

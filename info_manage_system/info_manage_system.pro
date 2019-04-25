@@ -33,6 +33,7 @@ SOURCES += \
     login_page.cpp
 
 HEADERS += \
+    data_struct.h \
         mainwindow.h \
     in_out_account_page.h \
     search_page.h \

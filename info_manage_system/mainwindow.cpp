@@ -6,7 +6,8 @@
  *  stu_college varchar(20) not null, stu_class varchar(20) not null,
  *  stu_sex varchar(1) not null, stu_indentification_number varchar(18) not null,
  *  stu_status_of_student_status varchar(20) not null,
- *  account_in_time  varchar(20) not null, account_out_time varchar(20));
+ *  account_in_time  varchar(20) not null, account_out_time varchar(20),
+ *  photoPath varchar(50));
  * 查看表属性
  * show columns from account_in_out;
 */
@@ -36,6 +37,8 @@ MainWindow::~MainWindow()
 void MainWindow::init(){
     connect(ui->log_in_page, &Login_page::login_usr_passwd,
             this, &MainWindow::connect_database);
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::addAccount,
+            this, &MainWindow::addAccount);
 }
 
 void MainWindow::connect_database(QString usr, QString passwd){
@@ -56,11 +59,39 @@ void MainWindow::connect_database(QString usr, QString passwd){
         qDebug() << "success";
     }
     restoreToolButton();
-//    qsQuery = QSqlQuery(db);
+    qsQuery = QSqlQuery(db);
 //    QString strSqlText("SELECT * FROM user");//查询语法
 //    qsQuery.prepare(strSqlText);
 //    qsQuery.exec();
 //    qDebug() << qsQuery.result();
+}
+
+void MainWindow::addAccount(Account account){
+    qsQuery.prepare("INSERT INTO account_in_out (stu_name, stu_ID, stu_college,"
+                    "stu_class, stu_sex, stu_indentification_number,"
+                    "stu_status_of_student_status, account_in_time,"
+                    "account_out_time, photoPath)"
+                    "VALUES (:stu_name, :stu_ID, :stu_college,"
+                    ":stu_class, :stu_sex, :stu_indentification_number,"
+                    ":stu_status_of_student_status, :account_in_time,"
+                    ":account_out_time, :photoPath)");
+    qsQuery.bindValue(":stu_name", account.stu_name);
+    qsQuery.bindValue(":stu_ID", account.stu_ID);
+    qsQuery.bindValue(":stu_college", account.stu_college);
+    qsQuery.bindValue(":stu_class", account.stu_class);
+    qsQuery.bindValue(":stu_sex", account.stu_sex);
+    qsQuery.bindValue(":stu_indentification_number", account.stu_indentification_number);
+    qsQuery.bindValue(":stu_status_of_student_status", account.stu_status_of_student_status);
+    qsQuery.bindValue(":account_in_time", account.account_in_time);
+    qsQuery.bindValue(":account_out_time", account.account_out_time);
+    qsQuery.bindValue(":photoPath", account.photoPath);
+    if (qsQuery.exec()){
+        QMessageBox::information(this, "info", "insert successfully");
+    }
+    else {
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::information(this, "info", error.text());
+    }
 }
 
 void MainWindow::restoreToolButton(){

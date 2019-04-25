@@ -133,7 +133,7 @@ void IN_OUT_ACCOUNT_PAGE::on_write_concelButton_clicked()
 {
     ui->out_accountButton->setEnabled(true);
     ui->in_accountButton->setEnabled(true);
-    restore_lineEdit_and_PushBuuton();
+//    restore_lineEdit_and_PushBuuton();
     empty_lineEdit();
 }
 
@@ -157,4 +157,26 @@ void IN_OUT_ACCOUNT_PAGE::on_searchButton_clicked()
 {
     ui->write_OKButton->setEnabled(true);
     ui->account_out_time->setEnabled(true);
+}
+
+void IN_OUT_ACCOUNT_PAGE::on_write_OKButton_clicked()
+{
+    Account account;
+    account.stu_name = ui->stu_name->text();
+    account.stu_ID = ui->stu_ID->text().toInt();
+    account.stu_college = ui->stu_college->text();
+    account.stu_class = ui->stu_class->text();
+    account.stu_sex = ui->stu_sex->text();
+    account.stu_indentification_number = ui->stu_indentification_number->text();
+    account.stu_status_of_student_status = ui->stu_status_of_student_status->text();
+    account.account_in_time = ui->account_in_time->text();
+    account.account_out_time = ui->account_out_time->text();
+    account.photoPath = photoPath_;
+    emit addAccount(account);
+}
+
+void IN_OUT_ACCOUNT_PAGE::on_uploadPhoto_clicked()
+{
+    QString photoPath;
+    photoPath_ = photoPath;
 }

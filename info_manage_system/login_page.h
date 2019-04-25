@@ -2,6 +2,7 @@
 #define LOGIN_PAGE_H
 
 #include <QFrame>
+#include <QMessageBox>
 
 namespace Ui {
 class Login_page;

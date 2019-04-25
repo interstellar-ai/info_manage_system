@@ -7,6 +7,8 @@
 #include <QSqlDatabase>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <data_struct.h>
+#include <QSqlError>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +22,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+
+
 private slots:
     void on_in_out_account_clicked();
 
@@ -28,6 +33,8 @@ private slots:
     void on_search_clicked();
 
     void connect_database(QString usr, QString passwd);
+
+    void addAccount(Account account);
 
 private:
     void set_pushButton();
