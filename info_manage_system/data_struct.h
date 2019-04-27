@@ -3,7 +3,7 @@
 
 #include <QString>
 
-struct Account{
+struct Account_info{
     QString stu_name;
     int stu_ID;
     QString stu_college;

@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->account_card_borrow->setEnabled(false);
     ui->search->setEnabled(false);
     init();
+    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
+    connect_database_();
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +41,35 @@ void MainWindow::init(){
             this, &MainWindow::connect_database);
     connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::addAccount,
             this, &MainWindow::addAccount);
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::inputNameAndStuId,
+            this, &MainWindow::searchStuInfo);
+    connect(this, &MainWindow::searchResult,
+            ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::searchResult);
+}
+
+void MainWindow::connect_database_(){
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setHostName("127.0.0.1");
+    db.setPort(3306);
+    db.setDatabaseName("mysql");
+    db.setUserName("root");
+    db.setPassword("root");
+//    db.setUserName(usr);
+//    db.setPassword(passwd);
+    bool ok = db.open();
+    if (!ok){
+        QMessageBox::warning(this, "警告", "username or password error");
+        return;
+    }
+//    else {
+//        qDebug() << "success";
+//    }
+    restoreToolButton();
+    qsQuery = QSqlQuery(db);
+//    QString strSqlText("SELECT * FROM user");//查询语法
+//    qsQuery.prepare(strSqlText);
+//    qsQuery.exec();
+//    qDebug() << qsQuery.result();
 }
 
 void MainWindow::connect_database(QString usr, QString passwd){
@@ -52,12 +83,12 @@ void MainWindow::connect_database(QString usr, QString passwd){
     db.setPassword(passwd);
     bool ok = db.open();
     if (!ok){
-        QMessageBox::information(this, "infor", "connect failed username or passward error");
+        QMessageBox::warning(this, "警告", "username or password error");
         return;
     }
-    else {
-        qDebug() << "success";
-    }
+//    else {
+//        qDebug() << "success";
+//    }
     restoreToolButton();
     qsQuery = QSqlQuery(db);
 //    QString strSqlText("SELECT * FROM user");//查询语法
@@ -66,7 +97,7 @@ void MainWindow::connect_database(QString usr, QString passwd){
 //    qDebug() << qsQuery.result();
 }
 
-void MainWindow::addAccount(Account account){
+void MainWindow::addAccount(Account_info account_info){
     qsQuery.prepare("INSERT INTO account_in_out (stu_name, stu_ID, stu_college,"
                     "stu_class, stu_sex, stu_indentification_number,"
                     "stu_status_of_student_status, account_in_time,"
@@ -75,22 +106,50 @@ void MainWindow::addAccount(Account account){
                     ":stu_class, :stu_sex, :stu_indentification_number,"
                     ":stu_status_of_student_status, :account_in_time,"
                     ":account_out_time, :photoPath)");
-    qsQuery.bindValue(":stu_name", account.stu_name);
-    qsQuery.bindValue(":stu_ID", account.stu_ID);
-    qsQuery.bindValue(":stu_college", account.stu_college);
-    qsQuery.bindValue(":stu_class", account.stu_class);
-    qsQuery.bindValue(":stu_sex", account.stu_sex);
-    qsQuery.bindValue(":stu_indentification_number", account.stu_indentification_number);
-    qsQuery.bindValue(":stu_status_of_student_status", account.stu_status_of_student_status);
-    qsQuery.bindValue(":account_in_time", account.account_in_time);
-    qsQuery.bindValue(":account_out_time", account.account_out_time);
-    qsQuery.bindValue(":photoPath", account.photoPath);
+    qsQuery.bindValue(":stu_name", account_info.stu_name);
+    qsQuery.bindValue(":stu_ID", account_info.stu_ID);
+    qsQuery.bindValue(":stu_college", account_info.stu_college);
+    qsQuery.bindValue(":stu_class", account_info.stu_class);
+    qsQuery.bindValue(":stu_sex", account_info.stu_sex);
+    qsQuery.bindValue(":stu_indentification_number", account_info.stu_indentification_number);
+    qsQuery.bindValue(":stu_status_of_student_status", account_info.stu_status_of_student_status);
+    qsQuery.bindValue(":account_in_time", account_info.account_in_time);
+    qsQuery.bindValue(":account_out_time", account_info.account_out_time);
+    qsQuery.bindValue(":photoPath", account_info.photoPath);
     if (qsQuery.exec()){
         QMessageBox::information(this, "info", "insert successfully");
     }
     else {
         QSqlError error(qsQuery.lastError());
         QMessageBox::information(this, "info", error.text());
+    }
+}
+
+void MainWindow::searchStuInfo(Account_info account_info){
+    qsQuery.prepare("select * from account_in_out where stu_ID = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.first()){ // result is not empty
+        if (qsQuery.value("stu_name").toString() == account_info.stu_name){
+            qDebug() << "search successfully";
+            account_info.stu_college = qsQuery.value("stu_college").toString();
+            account_info.stu_class = qsQuery.value("stu_class").toString();
+            account_info.stu_sex = qsQuery.value("stu_class").toString();
+            account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
+            account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
+            account_info.account_in_time = qsQuery.value("account_in_time").toString();
+            emit searchResult(account_info);
+        }
+        else{
+            QMessageBox::warning(this, "警告", "输入姓名和学号不匹配");
+        }
+    }
+    else {
+        QMessageBox::warning(this, "警告", "查无此人");
     }
 }
 

@@ -38,7 +38,7 @@ void Login_page::on_cancelButton_clicked()
 void Login_page::on_okButton_clicked()
 {
     if (ui->userName->text().isEmpty() || ui->password->text().isEmpty()){
-        QMessageBox::information(this, "infor", "usrname or passwd cant be empty");
+        QMessageBox::warning(this, "警告", "用户名或密码不能为空");
         return;
     }
     emit login_usr_passwd(ui->userName->text(), ui->password->text());

@@ -101,6 +101,7 @@ void IN_OUT_ACCOUNT_PAGE::on_in_accountButton_clicked()
     ui->importButton->setEnabled(initialization);
     ui->write_OKButton->setEnabled(initialization);
     ui->write_concelButton->setEnabled(initialization);
+    ui->searchButton->setEnabled(!initialization);
     ui->readCardButton->setEnabled(initialization);
     ui->uploadPhoto->setEnabled(initialization);
     empty_lineEdit();
@@ -131,6 +132,8 @@ void IN_OUT_ACCOUNT_PAGE::on_out_accountButton_clicked()
 
 void IN_OUT_ACCOUNT_PAGE::on_write_concelButton_clicked()
 {
+    ui->stu_name->setEnabled(true);
+    ui->stu_ID->setEnabled(true);
     ui->out_accountButton->setEnabled(true);
     ui->in_accountButton->setEnabled(true);
 //    restore_lineEdit_and_PushBuuton();
@@ -155,24 +158,51 @@ void IN_OUT_ACCOUNT_PAGE::empty_lineEdit(){
 
 void IN_OUT_ACCOUNT_PAGE::on_searchButton_clicked()
 {
+    if (ui->stu_name->text().isEmpty() || ui->stu_ID->text().isEmpty()){
+        QMessageBox::warning(this, "警告", "姓名/学号不能为空");
+        return;
+    }
+    Account_info account_info;
+    account_info.stu_name = ui->stu_name->text();
+    account_info.stu_ID = ui->stu_ID->text().toInt();
+    emit inputNameAndStuId(account_info);
+
     ui->write_OKButton->setEnabled(true);
     ui->account_out_time->setEnabled(true);
 }
 
+void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
+    ui->stu_name->setEnabled(false);
+    ui->stu_ID->setEnabled(false);
+    ui->stu_sex->setText(account_info.stu_sex);
+    ui->stu_college->setText(account_info.stu_college);
+    ui->stu_class->setText(account_info.stu_class);
+    ui->stu_indentification_number->setText(account_info.stu_indentification_number);
+    ui->stu_status_of_student_status->setText(account_info.stu_status_of_student_status);
+    ui->account_in_time->setText(account_info.account_in_time);
+}
+
 void IN_OUT_ACCOUNT_PAGE::on_write_OKButton_clicked()
 {
-    Account account;
-    account.stu_name = ui->stu_name->text();
-    account.stu_ID = ui->stu_ID->text().toInt();
-    account.stu_college = ui->stu_college->text();
-    account.stu_class = ui->stu_class->text();
-    account.stu_sex = ui->stu_sex->text();
-    account.stu_indentification_number = ui->stu_indentification_number->text();
-    account.stu_status_of_student_status = ui->stu_status_of_student_status->text();
-    account.account_in_time = ui->account_in_time->text();
-    account.account_out_time = ui->account_out_time->text();
-    account.photoPath = photoPath_;
-    emit addAccount(account);
+    if (ui->stu_name->text().isEmpty() || ui->stu_ID->text().isEmpty() ||
+            ui->stu_college->text().isEmpty() || ui->stu_class->text().isEmpty() ||
+            ui->stu_sex->text().isEmpty() || ui->stu_indentification_number->text().isEmpty()||
+            ui->account_in_time->text().isEmpty()){
+        QMessageBox::warning(this, "警告", "信息不能为空");
+        return;
+    }
+    Account_info account_info;
+    account_info.stu_name = ui->stu_name->text();
+    account_info.stu_ID = ui->stu_ID->text().toInt();
+    account_info.stu_college = ui->stu_college->text();
+    account_info.stu_class = ui->stu_class->text();
+    account_info.stu_sex = ui->stu_sex->text();
+    account_info.stu_indentification_number = ui->stu_indentification_number->text();
+    account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
+    account_info.account_in_time = ui->account_in_time->text();
+    account_info.account_out_time = ui->account_out_time->text();
+    account_info.photoPath = photoPath_;
+    emit addAccount(account_info);
 }
 
 void IN_OUT_ACCOUNT_PAGE::on_uploadPhoto_clicked()

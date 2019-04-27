@@ -2,6 +2,7 @@
 #define IN_OUT_ACCOUNT_PAGE_H
 
 #include <QFrame>
+#include <QMessageBox>
 #include <data_struct.h>
 
 namespace Ui {
@@ -17,7 +18,12 @@ public:
     ~IN_OUT_ACCOUNT_PAGE();
 
 signals:
-    void addAccount(Account account);
+    void addAccount(Account_info account_info);
+    void inputNameAndStuId(Account_info account_info);
+
+public slots:
+    void searchResult(Account_info account_info);
+
 
 private slots:
     void on_in_accountButton_clicked();

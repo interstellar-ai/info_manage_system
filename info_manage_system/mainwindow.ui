@@ -16,6 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>宋体</family>
+   </font>
+  </property>
   <property name="windowIcon">
    <iconset resource="icon.qrc">
     <normaloff>:/icon/collect.png</normaloff>:/icon/collect.png</iconset>

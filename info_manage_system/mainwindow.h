@@ -9,6 +9,7 @@
 #include <QCloseEvent>
 #include <data_struct.h>
 #include <QSqlError>
+#include <QSqlRecord>
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +24,7 @@ public:
     ~MainWindow();
 
 signals:
-
+    void searchResult(Account_info account_info);
 
 private slots:
     void on_in_out_account_clicked();
@@ -34,7 +35,11 @@ private slots:
 
     void connect_database(QString usr, QString passwd);
 
-    void addAccount(Account account);
+    void connect_database_();
+
+    void addAccount(Account_info account_info);
+
+    void searchStuInfo(Account_info account_info);
 
 private:
     void set_pushButton();
