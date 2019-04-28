@@ -3,7 +3,11 @@
 
 #include <QFrame>
 #include <QMessageBox>
+#include <QFileDialog>
 #include <data_struct.h>
+#include <QDebug>
+#include <QImage>
+#include <QDateTime>
 
 namespace Ui {
 class IN_OUT_ACCOUNT_PAGE;
@@ -20,6 +24,7 @@ public:
 signals:
     void addAccount(Account_info account_info);
     void inputNameAndStuId(Account_info account_info);
+    void addOutAccountTime(Account_info account_info);
 
 public slots:
     void searchResult(Account_info account_info);
@@ -50,6 +55,7 @@ private:
 private:
     Ui::IN_OUT_ACCOUNT_PAGE *ui;
     QString photoPath_;
+    int index;
 };
 
 #endif // IN_OUT_ACCOUNT_PAGE_H

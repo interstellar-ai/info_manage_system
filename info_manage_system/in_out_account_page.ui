@@ -755,6 +755,9 @@ padding:2px 4px;</string>
          <property name="text">
           <string>确定</string>
          </property>
+         <property name="shortcut">
+          <string>Return</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -786,6 +789,9 @@ padding:2px 4px;</string>
          </property>
          <property name="text">
           <string>取消</string>
+         </property>
+         <property name="shortcut">
+          <string>Esc</string>
          </property>
         </widget>
        </item>

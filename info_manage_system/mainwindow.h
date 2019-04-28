@@ -10,6 +10,7 @@
 #include <data_struct.h>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QDir>
 
 namespace Ui {
 class MainWindow;
@@ -41,11 +42,14 @@ private slots:
 
     void searchStuInfo(Account_info account_info);
 
+    void addOutAccountTime(Account_info account_info);
+
 private:
     void set_pushButton();
     void init();
     void restoreToolButton();
     void closeEvent(QCloseEvent *event);
+    void createDir();
 
 private:
     Ui::MainWindow *ui;

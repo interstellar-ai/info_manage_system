@@ -87,6 +87,7 @@ void IN_OUT_ACCOUNT_PAGE::init_in_out_account_page(){
 
 void IN_OUT_ACCOUNT_PAGE::on_in_accountButton_clicked()
 {
+    index = 1;
     bool initialization = true;
     ui->out_accountButton->setEnabled(false);
     ui->stu_ID->setEnabled(initialization);
@@ -109,6 +110,7 @@ void IN_OUT_ACCOUNT_PAGE::on_in_accountButton_clicked()
 
 void IN_OUT_ACCOUNT_PAGE::on_out_accountButton_clicked()
 {
+    index = 2;
     bool initialization = true;
     ui->in_accountButton->setEnabled(false);
     ui->stu_ID->setEnabled(initialization);
@@ -154,6 +156,7 @@ void IN_OUT_ACCOUNT_PAGE::empty_lineEdit(){
     ui->stu_status_of_student_status->clear();
     ui->account_in_time->clear();
     ui->account_out_time->clear();
+    ui->label->clear();
 }
 
 void IN_OUT_ACCOUNT_PAGE::on_searchButton_clicked()
@@ -180,33 +183,62 @@ void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
     ui->stu_indentification_number->setText(account_info.stu_indentification_number);
     ui->stu_status_of_student_status->setText(account_info.stu_status_of_student_status);
     ui->account_in_time->setText(account_info.account_in_time);
+    QImage img;
+    img.load(account_info.photoPath);
+    ui->label->setPixmap(QPixmap::fromImage(img));
 }
 
 void IN_OUT_ACCOUNT_PAGE::on_write_OKButton_clicked()
 {
-    if (ui->stu_name->text().isEmpty() || ui->stu_ID->text().isEmpty() ||
-            ui->stu_college->text().isEmpty() || ui->stu_class->text().isEmpty() ||
-            ui->stu_sex->text().isEmpty() || ui->stu_indentification_number->text().isEmpty()||
-            ui->account_in_time->text().isEmpty()){
-        QMessageBox::warning(this, "警告", "信息不能为空");
-        return;
-    }
     Account_info account_info;
-    account_info.stu_name = ui->stu_name->text();
-    account_info.stu_ID = ui->stu_ID->text().toInt();
-    account_info.stu_college = ui->stu_college->text();
-    account_info.stu_class = ui->stu_class->text();
-    account_info.stu_sex = ui->stu_sex->text();
-    account_info.stu_indentification_number = ui->stu_indentification_number->text();
-    account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
-    account_info.account_in_time = ui->account_in_time->text();
-    account_info.account_out_time = ui->account_out_time->text();
-    account_info.photoPath = photoPath_;
-    emit addAccount(account_info);
+    if (index == 1){
+        if (ui->stu_name->text().isEmpty() || ui->stu_ID->text().isEmpty() ||
+                ui->stu_college->text().isEmpty() || ui->stu_class->text().isEmpty() ||
+                ui->stu_sex->text().isEmpty() || ui->stu_indentification_number->text().isEmpty()||
+                ui->account_in_time->text().isEmpty()){
+            QMessageBox::warning(this, "警告", "信息不能为空");
+            return;
+        }
+        account_info.stu_name = ui->stu_name->text();
+        account_info.stu_ID = ui->stu_ID->text().toInt();
+        account_info.stu_college = ui->stu_college->text();
+        account_info.stu_class = ui->stu_class->text();
+        account_info.stu_sex = ui->stu_sex->text();
+        account_info.stu_indentification_number = ui->stu_indentification_number->text();
+        account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
+        account_info.account_in_time = ui->account_in_time->text();
+        account_info.photoPath = photoPath_;
+        emit addAccount(account_info);
+    }
+    else if (index == 2){
+        if (ui->account_out_time->text().isEmpty()){
+            QMessageBox::warning(this, "警告", "信息不能为空");
+            return;
+        }
+        account_info.account_out_time = ui->account_out_time->text();
+        account_info.stu_ID = ui->stu_ID->text().toInt();
+        emit addOutAccountTime(account_info);
+    }
 }
 
 void IN_OUT_ACCOUNT_PAGE::on_uploadPhoto_clicked()
 {
-    QString photoPath;
+    QString photoPath = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                     "/home",
+                                                     tr("Images (*.png *.xpm *.jpg)"));
     photoPath_ = photoPath;
+    qDebug() << photoPath;
+    QDateTime dtime;
+    QFile file(photoPath);
+    photoPath_ = "../photo/" + tr("%1").arg(dtime.currentSecsSinceEpoch()) + ".jpg";
+    qDebug() << photoPath_;
+    if(file.copy(photoPath_)){
+        QMessageBox::information(this, "通知", "上传成功");
+    }
+    else {
+        QMessageBox::warning(this, "警告", "上传失败");
+    }
+    QImage img;
+    img.load(photoPath_);
+    ui->label->setPixmap(QPixmap::fromImage(img));
 }

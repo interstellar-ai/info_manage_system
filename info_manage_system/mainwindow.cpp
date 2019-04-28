@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->account_card_borrow->setEnabled(false);
     ui->search->setEnabled(false);
     init();
+
     ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
     connect_database_();
 }
@@ -45,7 +46,12 @@ void MainWindow::init(){
             this, &MainWindow::searchStuInfo);
     connect(this, &MainWindow::searchResult,
             ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::searchResult);
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::addOutAccountTime,
+            this, &MainWindow::addOutAccountTime);
+    createDir();
 }
+
+
 
 void MainWindow::connect_database_(){
     db = QSqlDatabase::addDatabase("QODBC");
@@ -61,15 +67,8 @@ void MainWindow::connect_database_(){
         QMessageBox::warning(this, "警告", "username or password error");
         return;
     }
-//    else {
-//        qDebug() << "success";
-//    }
     restoreToolButton();
     qsQuery = QSqlQuery(db);
-//    QString strSqlText("SELECT * FROM user");//查询语法
-//    qsQuery.prepare(strSqlText);
-//    qsQuery.exec();
-//    qDebug() << qsQuery.result();
 }
 
 void MainWindow::connect_database(QString usr, QString passwd){
@@ -86,15 +85,8 @@ void MainWindow::connect_database(QString usr, QString passwd){
         QMessageBox::warning(this, "警告", "username or password error");
         return;
     }
-//    else {
-//        qDebug() << "success";
-//    }
     restoreToolButton();
     qsQuery = QSqlQuery(db);
-//    QString strSqlText("SELECT * FROM user");//查询语法
-//    qsQuery.prepare(strSqlText);
-//    qsQuery.exec();
-//    qDebug() << qsQuery.result();
 }
 
 void MainWindow::addAccount(Account_info account_info){
@@ -114,14 +106,14 @@ void MainWindow::addAccount(Account_info account_info){
     qsQuery.bindValue(":stu_indentification_number", account_info.stu_indentification_number);
     qsQuery.bindValue(":stu_status_of_student_status", account_info.stu_status_of_student_status);
     qsQuery.bindValue(":account_in_time", account_info.account_in_time);
-    qsQuery.bindValue(":account_out_time", account_info.account_out_time);
+//    qsQuery.bindValue(":account_out_time", account_info.account_out_time);
     qsQuery.bindValue(":photoPath", account_info.photoPath);
     if (qsQuery.exec()){
-        QMessageBox::information(this, "info", "insert successfully");
+        QMessageBox::information(this, "通知", "添加成功");
     }
     else {
         QSqlError error(qsQuery.lastError());
-        QMessageBox::information(this, "info", error.text());
+        QMessageBox::warning(this, "警告", error.text());
     }
 }
 
@@ -135,13 +127,13 @@ void MainWindow::searchStuInfo(Account_info account_info){
     }
     if(qsQuery.first()){ // result is not empty
         if (qsQuery.value("stu_name").toString() == account_info.stu_name){
-            qDebug() << "search successfully";
             account_info.stu_college = qsQuery.value("stu_college").toString();
             account_info.stu_class = qsQuery.value("stu_class").toString();
             account_info.stu_sex = qsQuery.value("stu_class").toString();
             account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
             account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
             account_info.account_in_time = qsQuery.value("account_in_time").toString();
+            account_info.photoPath = qsQuery.value("photoPath").toString();
             emit searchResult(account_info);
         }
         else{
@@ -150,6 +142,22 @@ void MainWindow::searchStuInfo(Account_info account_info){
     }
     else {
         QMessageBox::warning(this, "警告", "查无此人");
+    }
+}
+
+void MainWindow::addOutAccountTime(Account_info account_info){
+    qsQuery.prepare("update account_in_out set account_out_time = :account_out_time_ where stu_ID = :stu_ID_");
+    qsQuery.bindValue(":account_out_time_", account_info.account_out_time);
+    qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
+    qDebug() << account_info.stu_ID;
+    qDebug() << account_info.account_out_time;
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    else {
+        QMessageBox::information(this, "通知", "添加成功");
     }
 }
 
@@ -199,4 +207,11 @@ void MainWindow::on_search_clicked()
 void MainWindow::closeEvent(QCloseEvent *event){
     db.close();
     event->accept();
+}
+
+void MainWindow::createDir(){
+    QDir tempDir;
+    if (!tempDir.exists("..//photo")){
+        tempDir.mkdir("..//photo");
+    }
 }
