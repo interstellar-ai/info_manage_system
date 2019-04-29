@@ -136,6 +136,7 @@ void IN_OUT_ACCOUNT_PAGE::on_write_concelButton_clicked()
 {
     ui->stu_name->setEnabled(true);
     ui->stu_ID->setEnabled(true);
+    ui->account_out_time->setEnabled(false);
     ui->out_accountButton->setEnabled(true);
     ui->in_accountButton->setEnabled(true);
 //    restore_lineEdit_and_PushBuuton();
@@ -169,14 +170,14 @@ void IN_OUT_ACCOUNT_PAGE::on_searchButton_clicked()
     account_info.stu_name = ui->stu_name->text();
     account_info.stu_ID = ui->stu_ID->text().toInt();
     emit inputNameAndStuId(account_info);
-
-    ui->write_OKButton->setEnabled(true);
-    ui->account_out_time->setEnabled(true);
 }
 
 void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
     ui->stu_name->setEnabled(false);
     ui->stu_ID->setEnabled(false);
+    ui->stu_name->setText(account_info.stu_name);
+    ui->stu_ID->setText(QString::number(account_info.stu_ID));
+//    qDebug() << QString::number(account_info.stu_ID);
     ui->stu_sex->setText(account_info.stu_sex);
     ui->stu_college->setText(account_info.stu_college);
     ui->stu_class->setText(account_info.stu_class);
@@ -186,6 +187,8 @@ void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
     QImage img;
     img.load(account_info.photoPath);
     ui->label->setPixmap(QPixmap::fromImage(img));
+    ui->write_OKButton->setEnabled(true);
+    ui->account_out_time->setEnabled(true);
 }
 
 void IN_OUT_ACCOUNT_PAGE::on_write_OKButton_clicked()
@@ -226,6 +229,9 @@ void IN_OUT_ACCOUNT_PAGE::on_uploadPhoto_clicked()
     QString photoPath = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                      "/home",
                                                      tr("Images (*.png *.xpm *.jpg)"));
+    if (photoPath == ""){
+        return;
+    }
     photoPath_ = photoPath;
     qDebug() << photoPath;
     QDateTime dtime;
@@ -241,4 +247,41 @@ void IN_OUT_ACCOUNT_PAGE::on_uploadPhoto_clicked()
     QImage img;
     img.load(photoPath_);
     ui->label->setPixmap(QPixmap::fromImage(img));
+}
+
+void IN_OUT_ACCOUNT_PAGE::on_readCardButton_clicked()
+{
+    if (index == 2){
+        QSerialPort serialPort;
+        const QString serialPortName = "COM3";
+        serialPort.setPortName(serialPortName);
+        serialPort.setBaudRate(QSerialPort::Baud9600);
+
+        if (!serialPort.open(QIODevice::ReadOnly)) {
+            QMessageBox::warning(this, "警告", QObject::tr("Failed to open port %1, error: %2")
+                    .arg(serialPortName).arg(serialPort.error()));
+    //        QMessageBox::question(this, "请求", "请输入duan'kou端口号", )
+            return;
+        }
+        while(!serialPort.waitForReadyRead());
+        int readData = serialPort.readAll().toInt();
+    //    int readData = serialPort.readAll().toInt();
+        if (serialPort.error() == QSerialPort::ReadError) {
+                QMessageBox::warning(this, "警告", QObject::tr("Failed to read from port %1, error: %2")
+                                  .arg(serialPortName).arg(serialPort.errorString()));
+                return;
+        } else if (serialPort.error() == QSerialPort::TimeoutError && readData == 0) {
+            QMessageBox::warning(this, "警告", QObject::tr("No data was currently available"
+                                              " for reading from port %1").arg(serialPortName));
+            return;
+        }
+    //    QMessageBox::warning(this, "警告", QObject::tr("Data successfully received from port %1")
+    //                          .arg(serialPortName));
+        Account_info account_info;
+        account_info.stu_ID =readData;
+
+        qDebug() << readData;
+        serialPort.close();
+        emit readStu_ID_info(account_info);
+    }
 }

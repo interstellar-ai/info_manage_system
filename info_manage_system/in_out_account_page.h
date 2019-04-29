@@ -8,6 +8,8 @@
 #include <QDebug>
 #include <QImage>
 #include <QDateTime>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
 namespace Ui {
 class IN_OUT_ACCOUNT_PAGE;
@@ -25,6 +27,7 @@ signals:
     void addAccount(Account_info account_info);
     void inputNameAndStuId(Account_info account_info);
     void addOutAccountTime(Account_info account_info);
+    void readStu_ID_info(Account_info account_info);
 
 public slots:
     void searchResult(Account_info account_info);
@@ -48,6 +51,8 @@ private slots:
     void on_write_OKButton_clicked();
 
     void on_uploadPhoto_clicked();
+
+    void on_readCardButton_clicked();
 
 private:
     void set_pushButton();

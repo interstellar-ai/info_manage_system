@@ -48,9 +48,35 @@ void MainWindow::init(){
             ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::searchResult);
     connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::addOutAccountTime,
             this, &MainWindow::addOutAccountTime);
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::readStu_ID_info,
+            this, &MainWindow::readStu_ID_info);
     createDir();
 }
 
+void MainWindow::readStu_ID_info(Account_info account_info){
+    qsQuery.prepare("select * from account_in_out where stu_ID = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.first()){ // result is not empty
+        account_info.stu_name = qsQuery.value("stu_name").toString();
+        account_info.stu_college = qsQuery.value("stu_college").toString();
+        account_info.stu_class = qsQuery.value("stu_class").toString();
+        account_info.stu_sex = qsQuery.value("stu_class").toString();
+        account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
+        account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
+        account_info.account_in_time = qsQuery.value("account_in_time").toString();
+        account_info.account_out_time = qsQuery.value("account_out_time").toString();
+        account_info.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult(account_info);
+    }
+    else {
+        QMessageBox::warning(this, "警告", "查无此人");
+    }
+}
 
 
 void MainWindow::connect_database_(){
@@ -149,8 +175,8 @@ void MainWindow::addOutAccountTime(Account_info account_info){
     qsQuery.prepare("update account_in_out set account_out_time = :account_out_time_ where stu_ID = :stu_ID_");
     qsQuery.bindValue(":account_out_time_", account_info.account_out_time);
     qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
-    qDebug() << account_info.stu_ID;
-    qDebug() << account_info.account_out_time;
+//    qDebug() << account_info.stu_ID;
+//    qDebug() << account_info.account_out_time;
     if (!qsQuery.exec()){
         QSqlError error(qsQuery.lastError());
         QMessageBox::warning(this, "警告", error.text());

@@ -44,6 +44,8 @@ private slots:
 
     void addOutAccountTime(Account_info account_info);
 
+    void readStu_ID_info(Account_info account_info);
+
 private:
     void set_pushButton();
     void init();
