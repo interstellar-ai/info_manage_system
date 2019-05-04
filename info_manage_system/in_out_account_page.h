@@ -8,8 +8,11 @@
 #include <QDebug>
 #include <QImage>
 #include <QDateTime>
+#include <QTime>
+//#include <readcard.h>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QThread>
 
 namespace Ui {
 class IN_OUT_ACCOUNT_PAGE;
@@ -30,6 +33,7 @@ signals:
     void readStu_ID_info(Account_info account_info);
 
 public slots:
+    void empty_lineEdit();
     void searchResult(Account_info account_info);
 
 
@@ -43,8 +47,6 @@ private slots:
     void init_in_out_account_page();
 
     void restore_lineEdit_and_PushBuuton();
-
-    void empty_lineEdit();
 
     void on_searchButton_clicked();
 

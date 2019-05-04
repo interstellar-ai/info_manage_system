@@ -11,6 +11,8 @@
 #include <QSqlError>
 #include <QSqlRecord>
 #include <QDir>
+//#include <readcard.h>
+#include <QThread>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +28,8 @@ public:
 
 signals:
     void searchResult(Account_info account_info);
+    void searchResult_mult(Account_info account_info);
+    void empty_lineEdit();
 
 private slots:
     void on_in_out_account_clicked();
@@ -43,8 +47,11 @@ private slots:
     void searchStuInfo(Account_info account_info);
 
     void addOutAccountTime(Account_info account_info);
+    void addTime(Account_info account_info);
 
     void readStu_ID_info(Account_info account_info);
+
+    void searchByMultiCodt(Account_info account_info);
 
 private:
     void set_pushButton();
@@ -52,11 +59,14 @@ private:
     void restoreToolButton();
     void closeEvent(QCloseEvent *event);
     void createDir();
+    void createMySQL_Table();
 
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QSqlQuery qsQuery;
+//    ReadCard readCard;
+//    QThread readCardThread;
 };
 
 #endif // MAINWINDOW_H

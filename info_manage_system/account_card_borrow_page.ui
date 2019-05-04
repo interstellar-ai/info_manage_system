@@ -411,7 +411,7 @@ padding:2px 4px;</string>
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="uploadPhoto">
+          <widget class="QPushButton" name="updateData">
            <property name="minimumSize">
             <size>
              <width>200</width>
@@ -425,7 +425,7 @@ padding:2px 4px;</string>
             </font>
            </property>
            <property name="text">
-            <string>上传图片</string>
+            <string>更改</string>
            </property>
           </widget>
          </item>

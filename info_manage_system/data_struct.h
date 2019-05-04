@@ -13,6 +13,8 @@ struct Account_info{
     QString stu_status_of_student_status;
     QString account_in_time;
     QString account_out_time;
+    QString borrow_time;
+    QString return_time;
     QString photoPath;
 };
 

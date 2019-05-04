@@ -184,6 +184,7 @@ void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
     ui->stu_indentification_number->setText(account_info.stu_indentification_number);
     ui->stu_status_of_student_status->setText(account_info.stu_status_of_student_status);
     ui->account_in_time->setText(account_info.account_in_time);
+    ui->account_out_time->setText(account_info.account_out_time);
     QImage img;
     img.load(account_info.photoPath);
     ui->label->setPixmap(QPixmap::fromImage(img));
@@ -236,8 +237,13 @@ void IN_OUT_ACCOUNT_PAGE::on_uploadPhoto_clicked()
     qDebug() << photoPath;
     QDateTime dtime;
     QFile file(photoPath);
-    photoPath_ = "../photo/" + tr("%1").arg(dtime.currentSecsSinceEpoch()) + ".jpg";
-    qDebug() << photoPath_;
+//    photoPath_ = "../photo/" + tr("%1").arg(dtime.currentSecsSinceEpoch()) + ".jpg";
+    if (ui->stu_ID->text().isEmpty()){
+        QMessageBox::warning(this, "警告", "请先输入学号信息");
+        return;
+    }
+    photoPath_ = "../photo/" + ui->stu_ID->text() + ".jpg";
+//    qDebug() << photoPath_;
     if(file.copy(photoPath_)){
         QMessageBox::information(this, "通知", "上传成功");
     }
@@ -256,30 +262,36 @@ void IN_OUT_ACCOUNT_PAGE::on_readCardButton_clicked()
         const QString serialPortName = "COM3";
         serialPort.setPortName(serialPortName);
         serialPort.setBaudRate(QSerialPort::Baud9600);
-
         if (!serialPort.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(this, "警告", QObject::tr("Failed to open port %1, error: %2")
+            QMessageBox::warning(nullptr, "警告", QObject::tr("Failed to open port %1, error: %2")
                     .arg(serialPortName).arg(serialPort.error()));
     //        QMessageBox::question(this, "请求", "请输入duan'kou端口号", )
             return;
         }
-        while(!serialPort.waitForReadyRead());
+        QTime time;
+        time.start();
+        while(!serialPort.waitForReadyRead()){
+            if (time.elapsed() > 5000){
+                qDebug() << "break";
+                break;
+//                return;
+            }
+        }
         int readData = serialPort.readAll().toInt();
     //    int readData = serialPort.readAll().toInt();
         if (serialPort.error() == QSerialPort::ReadError) {
-                QMessageBox::warning(this, "警告", QObject::tr("Failed to read from port %1, error: %2")
+                QMessageBox::warning(nullptr, "警告", QObject::tr("Failed to read from port %1, error: %2")
                                   .arg(serialPortName).arg(serialPort.errorString()));
                 return;
         } else if (serialPort.error() == QSerialPort::TimeoutError && readData == 0) {
-            QMessageBox::warning(this, "警告", QObject::tr("No data was currently available"
+            QMessageBox::warning(nullptr, "警告", QObject::tr("No data was currently available"
                                               " for reading from port %1").arg(serialPortName));
             return;
         }
     //    QMessageBox::warning(this, "警告", QObject::tr("Data successfully received from port %1")
     //                          .arg(serialPortName));
         Account_info account_info;
-        account_info.stu_ID =readData;
-
+        account_info.stu_ID = readData;
         qDebug() << readData;
         serialPort.close();
         emit readStu_ID_info(account_info);
