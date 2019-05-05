@@ -60,6 +60,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void createDir();
     void createMySQL_Table();
+    void getSearchResult(QSqlQuery qsQuery);
 
 private:
     Ui::MainWindow *ui;

@@ -219,42 +219,144 @@ void MainWindow::searchStuInfo(Account_info account_info){
 }
 
 void MainWindow::searchByMultiCodt(Account_info account_info){
-    QString stm = "SELECT * FROM stu_info WHERE ";
-    bool first = true;
+    QString stm = "SELECT * FROM stu_info";
+    bool hasWhere = false;
     if (account_info.stu_ID != 0){
-        stm += "stu_ID = :stu_ID";
+        stm += "WHERE stu_ID = :stu_ID";
         qsQuery.prepare(stm);
         qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
-        if (!qsQuery.exec()){
-            QSqlError error(qsQuery.lastError());
-            QMessageBox::warning(this, "警告", error.text());
-            return;
-        }
-        if(qsQuery.first()){ // result is not empty
-            if (qsQuery.value("stu_name").toString() == account_info.stu_name){
-                account_info.stu_college = qsQuery.value("stu_college").toString();
-                account_info.stu_class = qsQuery.value("stu_class").toString();
-                account_info.stu_sex = qsQuery.value("stu_sex").toString();
-                account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
-                account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
-                account_info.account_in_time = qsQuery.value("account_in_time").toString();
-                account_info.account_out_time = qsQuery.value("account_out_time").toString();
-                account_info.borrow_time = qsQuery.value("borrow_time").toString();
-                account_info.return_time = qsQuery.value("return_time").toString();
-                account_info.photoPath = qsQuery.value("photoPath").toString();
-                emit searchResult_mult(account_info);
-            }
-            else{
-                QMessageBox::warning(this, "警告", "查无此人");
-            }
-         }
-
+        getSearchResult(qsQuery);
+        return;
+    }
+    if (!account_info.stu_indentification_number.isEmpty()){
+        stm += "WHERE stu_indentification_number = :stu_indentification_number";
+        qsQuery.prepare(stm);
+        qsQuery.bindValue(":stu_indentification_number", account_info.stu_indentification_number);
+        getSearchResult(qsQuery);
+        return;
+    }
+    if (!account_info.stu_sex.isEmpty()){
+        stm += "WHERE stu_sex = :stu_sex_";
+        hasWhere = true;
     }
     if (!account_info.stu_name.isEmpty()){
-        first = false;
-        stm += "stu_name = :stu_name_";
+        if (hasWhere){
+            stm += "AND stu_name = :stu_name_";
+        }
+        else {
+            hasWhere = true;
+            stm += "where stu_name = :stu_name_";
+        }
+    }
+    if (!account_info.stu_class.isEmpty()){
+        if(hasWhere){
+            stm += "AND stu_class = :stu_class_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE stu_class = :stu_class_";
+        }
+    }
+    if (!account_info.stu_college.isEmpty()){
+        if (hasWhere){
+            stm += "AND stu_college = :stu_college_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE stu_college = :stu_college_";
+        }
+    }
+    if (!account_info.stu_status_of_student_status.isEmpty()){
+        if (hasWhere){
+            stm += "AND stu_status_of_student_status = :stu_status_of_student_status_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE stu_status_of_student_status = :stu_status_of_student_status_";
+        }
+    }
+    if (!account_info.account_in_time.isEmpty()){
+        if (hasWhere){
+            stm += "AND account_in_time >= :account_in_time_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE account_in_time >= :account_in_time_";
+        }
+    }
+    if (!account_info.account_out_time.isEmpty()){
+        if (hasWhere){
+            stm += "AND account_out_time <= :account_out_time_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE account_out_time <= :account_out_time_";
+        }
+    }
+    if (!account_info.borrow_time.isEmpty()){
+        if (hasWhere){
+            stm += "AND borrow_time >= :borrow_time_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE borrow_time >= :borrow_time_";
+        }
+    }
+    if (!account_info.return_time.isEmpty()){
+        if (hasWhere){
+            stm += "AND return_time <= :return_time_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE return_time <= :return_time_";
+        }
+    }
+    qsQuery.prepare(stm);
+    if (!account_info.stu_sex.isEmpty())
+        qsQuery.bindValue(":stu_sex_", account_info.stu_sex);
+    if (!account_info.stu_name.isEmpty())
+        qsQuery.bindValue(":stu_name_", account_info.stu_name);
+    if (!account_info.stu_class.isEmpty())
+        qsQuery.bindValue(":stu_class_", account_info.stu_class);
+    if (!account_info.stu_college.isEmpty())
+        qsQuery.bindValue(":stu_college_", account_info.stu_college);
+    if (!account_info.stu_status_of_student_status.isEmpty())
+        qsQuery.bindValue(":stu_status_of_student_status_", account_info.stu_status_of_student_status);
+    if (!account_info.account_in_time.isEmpty())
+        qsQuery.bindValue(":account_in_time_", account_info.account_in_time);
+    if (!account_info.account_out_time.isEmpty())
+        qsQuery.bindValue(":account_out_time_", account_info.account_out_time);
+    if (!account_info.borrow_time.isEmpty())
+        qsQuery.bindValue(":borrow_time_", account_info.borrow_time);
+    if (!account_info.return_time.isEmpty())
+        qsQuery.bindValue(":return_time_", account_info.return_time);
+    getSearchResult(qsQuery);
+}
+
+void MainWindow::getSearchResult(QSqlQuery qsQuery){
+    Account_info account_info;
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    while(qsQuery.next()){ // result is not empty
+        account_info.stu_ID = qsQuery.value("stu_college").toInt();
+        account_info.stu_name = qsQuery.value("stu_name").toString();
+        account_info.stu_college = qsQuery.value("stu_college").toString();
+        account_info.stu_class = qsQuery.value("stu_class").toString();
+        account_info.stu_sex = qsQuery.value("stu_sex").toString();
+        account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
+        account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
+        account_info.account_in_time = qsQuery.value("account_in_time").toString();
+        account_info.account_out_time = qsQuery.value("account_out_time").toString();
+        account_info.borrow_time = qsQuery.value("borrow_time").toString();
+        account_info.return_time = qsQuery.value("return_time").toString();
+        account_info.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult_mult(account_info);
     }
 }
+
 
 void MainWindow::addOutAccountTime(Account_info account_info){
     qsQuery.prepare("update stu_info set account_out_time = :account_out_time_ where stu_ID = :stu_ID_");
