@@ -2,6 +2,7 @@
 #define SEARCH_PAGE_H
 
 #include <QFrame>
+#include <QDebug>
 #include <data_struct.h>
 
 namespace Ui {
@@ -27,6 +28,7 @@ private slots:
 
 private:
     void set_pushuButton();
+    void showText(QString text);
 
 private:
     Ui::SEARCH_PAGE *ui;
