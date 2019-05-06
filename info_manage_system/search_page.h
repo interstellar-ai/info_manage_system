@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QDebug>
 #include <data_struct.h>
+#include <QByteArray>
 
 namespace Ui {
 class SEARCH_PAGE;
@@ -18,17 +19,20 @@ public:
     ~SEARCH_PAGE();
 
 public slots:
-    void searchResult_mult(Account_info account_info);
+    void searchResult_s(Account_info account_info);
 
 signals:
+    void searchedText(QString text);
     void searchByMultiCodt(Account_info account_info);
 
 private slots:
     void on_searchButton_clicked();
+    void showText(QString text);
 
 private:
     void set_pushuButton();
-    void showText(QString text);
+
+//    void showText(QByteArray);
 
 private:
     Ui::SEARCH_PAGE *ui;

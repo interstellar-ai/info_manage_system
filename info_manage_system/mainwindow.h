@@ -28,7 +28,7 @@ public:
 
 signals:
     void searchResult(Account_info account_info);
-    void searchResult_mult(Account_info account_info);
+    void searchResult_m(Account_info account_info);
     void empty_lineEdit();
 
 private slots:

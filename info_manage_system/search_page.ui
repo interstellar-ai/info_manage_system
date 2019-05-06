@@ -365,7 +365,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QTextEdit" name="searchResult"/>
+        <widget class="QTextEdit" name="searchResult_edit">
+         <property name="font">
+          <font>
+           <family>宋体</family>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="exportButton">

@@ -253,7 +253,7 @@ border-color: darkblue;</string>
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="login_page">
          <layout class="QHBoxLayout" name="horizontalLayout_4">

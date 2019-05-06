@@ -63,10 +63,10 @@ void MainWindow::init(){
             ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::empty_lineEdit);
     connect(this, &MainWindow::empty_lineEdit,
             ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::empty_lineEdit);
+    connect(this, &MainWindow::searchResult_m,
+            ui->search_page, &SEARCH_PAGE::searchResult_s);
     connect(ui->search_page, &SEARCH_PAGE::searchByMultiCodt,
             this, &MainWindow::searchByMultiCodt);
-    connect(this, &MainWindow::searchResult_mult,
-            ui->search_page, &SEARCH_PAGE::searchResult_mult);
     createDir();
 }
 
@@ -313,7 +313,6 @@ void MainWindow::searchByMultiCodt(Account_info account_info){
 }
 
 void MainWindow::getSearchResult(QString stm, Account_info account_info){
-    Account_info account_info1;
     qsQuery.prepare(stm);
     if (account_info.stu_ID != 0)
         qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
@@ -343,8 +342,9 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
         QMessageBox::warning(this, "警告", error.text());
         return;
     }
-    qDebug() << account_info.stu_ID;
+//    qDebug() << account_info.stu_ID;
     qDebug() << qsQuery.lastQuery();
+    Account_info account_info1;
     while(qsQuery.next()){ // result is not empty
         account_info1.stu_ID = qsQuery.value("stu_ID").toInt();
         account_info1.stu_name = qsQuery.value("stu_name").toString();
@@ -358,8 +358,8 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
         account_info1.borrow_time = qsQuery.value("borrow_time").toString();
         account_info1.return_time = qsQuery.value("return_time").toString();
 //        account_info1.photoPath = qsQuery.value("photoPath").toString();
-        qDebug() << "************" << account_info1.stu_name;
-        emit searchResult_mult(account_info1);
+//        qDebug() << "************" << account_info1.stu_name;
+        emit searchResult_m(account_info1);
     }
 }
 

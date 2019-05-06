@@ -268,15 +268,7 @@ void IN_OUT_ACCOUNT_PAGE::on_readCardButton_clicked()
     //        QMessageBox::question(this, "请求", "请输入duan'kou端口号", )
             return;
         }
-        QTime time;
-        time.start();
-        while(!serialPort.waitForReadyRead()){
-            if (time.elapsed() > 5000){
-                qDebug() << "break";
-                break;
-//                return;
-            }
-        }
+        serialPort.waitForReadyRead(5000);
         int readData = serialPort.readAll().toInt();
     //    int readData = serialPort.readAll().toInt();
         if (serialPort.error() == QSerialPort::ReadError) {

@@ -7,6 +7,8 @@ SEARCH_PAGE::SEARCH_PAGE(QWidget *parent) :
 {
     ui->setupUi(this);
     set_pushuButton();
+    connect(this, &SEARCH_PAGE::searchedText,
+            this, &SEARCH_PAGE::showText);
 }
 
 SEARCH_PAGE::~SEARCH_PAGE()
@@ -43,15 +45,15 @@ void SEARCH_PAGE::on_searchButton_clicked()
     account_info.borrow_time = ui->borrow_time->text();
     account_info.return_time = ui->return_time->text();
     emit searchByMultiCodt(account_info);
-    ui->searchResult->clear();
+    ui->searchResult_edit->clear();
     QString col = "stu_name, stu_ID, stu_college, stu_class, stu_sex,"
                   "stu_indentification_number, stu_status_of_student_status,"
                   "account_in_time, account_out_time, borrow_time, return_time";
-    showText(col);
+    emit searchedText(col);
 //    ui->lineEdit->setText(col);
 }
 
-void SEARCH_PAGE::searchResult_mult(Account_info account_info){
+void SEARCH_PAGE::searchResult_s(Account_info account_info){
     QString cont = account_info.stu_name + " "+
             QString::number(account_info.stu_ID) + " "+
             account_info.stu_college + " "+
@@ -63,9 +65,21 @@ void SEARCH_PAGE::searchResult_mult(Account_info account_info){
             account_info.borrow_time + " "+
             account_info.return_time;
     qDebug() << cont;
-    showText(cont);
+//    ui->searchResult_edit->clear();
+//    ui->searchResult_edit->moveCursor(QTextCursor::End);
+//    ui->searchResult_edit->append(cont);
+    ui->searchResult_edit->append("Are You ?");
+    ui->searchResult_edit->append(cont);
+//    emit searchedText(cont);
+//    emit searchedText("Are You ?");
+    qDebug() << ui->searchResult_edit->toPlainText();
 }
 
 void SEARCH_PAGE::showText(QString text){
-    ui->searchResult->append(text);
+    ui->searchResult_edit->append(text);
 }
+
+//void SEARCH_PAGE::showText(QByteArray text){
+//    ui->searchResult_edit->append(text);
+
+//}
