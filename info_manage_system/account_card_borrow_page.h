@@ -8,7 +8,6 @@
 #include <QSerialPortInfo>
 #include <QDebug>
 #include <QTime>
-//#include <readcard.h>
 
 namespace Ui {
 class ACCOUNT_CARD_BORROW_PAGE;

@@ -45,7 +45,7 @@ void SEARCH_PAGE::on_searchButton_clicked()
     account_info.borrow_time = ui->borrow_time->text();
     account_info.return_time = ui->return_time->text();
     emit searchByMultiCodt(account_info);
-    ui->searchResult_edit->clear();
+    ui->textEdit->clear();
     QString col = "stu_name, stu_ID, stu_college, stu_class, stu_sex,"
                   "stu_indentification_number, stu_status_of_student_status,"
                   "account_in_time, account_out_time, borrow_time, return_time";
@@ -68,15 +68,15 @@ void SEARCH_PAGE::searchResult_s(Account_info account_info){
 //    ui->searchResult_edit->clear();
 //    ui->searchResult_edit->moveCursor(QTextCursor::End);
 //    ui->searchResult_edit->append(cont);
-    ui->searchResult_edit->append("Are You ?");
-    ui->searchResult_edit->append(cont);
+//    ui->textEdit->append("Are You ?");
+    ui->textEdit->append(cont);
 //    emit searchedText(cont);
 //    emit searchedText("Are You ?");
-    qDebug() << ui->searchResult_edit->toPlainText();
+//    qDebug() << ui->textEdit->toPlainText();
 }
 
 void SEARCH_PAGE::showText(QString text){
-    ui->searchResult_edit->append(text);
+    ui->textEdit->append(text);
 }
 
 //void SEARCH_PAGE::showText(QByteArray text){

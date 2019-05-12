@@ -28,9 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->search->setEnabled(false);
     init();
 
-    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
-    connect_database_();
-    createMySQL_Table();
+    ui->stackedWidget->setCurrentWidget(ui->login_page);
+//    connect_database_();
 }
 
 MainWindow::~MainWindow()
@@ -114,6 +113,7 @@ void MainWindow::connect_database_(){
         QMessageBox::warning(this, "警告", "username or password error");
         return;
     }
+    createMySQL_Table();
     restoreToolButton();
     qsQuery = QSqlQuery(db);
 }
