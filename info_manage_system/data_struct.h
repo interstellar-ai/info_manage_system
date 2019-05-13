@@ -18,4 +18,9 @@ struct Account_info{
     QString photoPath;
 };
 
+struct Card_info{
+    QString card_ID;
+    int stu_ID;
+};
+
 #endif // DATA_STRUCT_H

@@ -26,9 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->in_out_account->setEnabled(false);
     ui->account_card_borrow->setEnabled(false);
     ui->search->setEnabled(false);
+    ui->readCardButton->setEnabled(false);
     init();
 
-    ui->stackedWidget->setCurrentWidget(ui->login_page);
+    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage0);
 //    connect_database_();
 }
 
@@ -66,6 +67,8 @@ void MainWindow::init(){
             ui->search_page, &SEARCH_PAGE::searchResult_s);
     connect(ui->search_page, &SEARCH_PAGE::searchByMultiCodt,
             this, &MainWindow::searchByMultiCodt);
+    connect(ui->readCardPage, &RecordCardNumber::saveCard_info,
+            this, &MainWindow::saveCard_info);
     createDir();
 }
 
@@ -133,7 +136,29 @@ void MainWindow::createMySQL_Table(){
                     "return_time varchar(20),"
                     "photoPath varchar(50))");
     if (qsQuery.exec()){
-//        QMessageBox::information(this, "通知", "stu_info Table 创建成功");
+//        QMessageBox::information(this, "通知", "stu_info 表 创建成功");
+    }
+    else {
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+    qsQuery.prepare("CREATE TABLE IF NOT EXISTS card("
+                    "card_ID varchar(50) not null,"
+                    "stu_ID INT primary key)");
+    if (qsQuery.exec()){
+//        QMessageBox::information(this, "通知", "card 表 创建成功");
+    }
+    else {
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowCardRecord("
+                    "stu_ID INT not null,"
+                    "reason varchar(50),"
+                    "borrow_time DATE not null,"
+                    "return_time DATE)");
+    if (qsQuery.exec()){
+//        QMessageBox::information(this, "通知", "borrowCardRecord 表 创建成功");
     }
     else {
         QSqlError error(qsQuery.lastError());
@@ -157,7 +182,10 @@ void MainWindow::connect_database(QString usr, QString passwd){
     }
     restoreToolButton();
     qsQuery = QSqlQuery(db);
+    createMySQL_Table();
 }
+
+
 
 void MainWindow::addAccount(Account_info account_info){
     qsQuery.prepare("INSERT INTO stu_info(stu_name, stu_ID, stu_college,"
@@ -182,6 +210,30 @@ void MainWindow::addAccount(Account_info account_info){
         QMessageBox::information(this, "通知", "添加成功");
     }
     else {
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+}
+
+void MainWindow::saveCard_info(Card_info card_info){
+    qsQuery.prepare("select * from card where stu_ID = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", card_info.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.first()){
+        qsQuery.prepare("update card set card_ID = :card_ID_ where stu_ID = :stu_ID_");
+    }
+    else {
+        qsQuery.prepare("INSERT INTO card(card_ID, stu_ID)"
+                        "VALUES"
+                        "(:card_ID_, :stu_ID_)");
+    }
+    qsQuery.bindValue(":card_ID_", card_info.card_ID);
+    qsQuery.bindValue(":stu_ID_", card_info.stu_ID);
+    if (!qsQuery.exec()){
         QSqlError error(qsQuery.lastError());
         QMessageBox::warning(this, "警告", error.text());
     }
@@ -402,6 +454,7 @@ void MainWindow::restoreToolButton(){
     ui->in_out_account->setEnabled(true);
     ui->account_card_borrow->setEnabled(true);
     ui->search->setEnabled(true);
+    ui->readCardButton->setEnabled(true);
     ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
 }
 void MainWindow::set_pushButton(){
@@ -419,6 +472,12 @@ void MainWindow::set_pushButton(){
         "QToolButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
         "QToolButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
     ui->search->setStyleSheet(
+        "QToolButton{ background-color : rgb(85, 170, 255);"
+                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+        "QToolButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+        "QToolButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+    ui->readCardButton->setStyleSheet(
         "QToolButton{ background-color : rgb(85, 170, 255);"
                 "border:2px groove gray;border-radius:30px;padding:2px 4px;"
                 "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
@@ -454,4 +513,9 @@ void MainWindow::createDir(){
     if (!tempDir.exists("..//photo")){
         tempDir.mkdir("..//photo");
     }
+}
+
+void MainWindow::on_readCardButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage4);
 }

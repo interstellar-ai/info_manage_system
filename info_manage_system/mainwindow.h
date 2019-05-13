@@ -53,6 +53,10 @@ private slots:
 
     void searchByMultiCodt(Account_info account_info);
 
+    void on_readCardButton_clicked();
+
+    void saveCard_info(Card_info);
+
 private:
     void set_pushButton();
     void init();

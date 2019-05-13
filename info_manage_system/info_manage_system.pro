@@ -29,6 +29,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     in_out_account_page.cpp \
+    recordcardnumber.cpp \
     search_page.cpp \
     account_card_borrow_page.cpp \
     login_page.cpp
@@ -37,6 +38,7 @@ HEADERS += \
     data_struct.h \
         mainwindow.h \
     in_out_account_page.h \
+    recordcardnumber.h \
     search_page.h \
     account_card_borrow_page.h \
     login_page.h
@@ -44,6 +46,7 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
     in_out_account_page.ui \
+    recordcardnumber.ui \
     search_page.ui \
     account_card_borrow_page.ui \
     login_page.ui
