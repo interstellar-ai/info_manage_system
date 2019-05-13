@@ -69,7 +69,7 @@
                 <widget class="QLineEdit" name="stu_ID_edit">
                  <property name="font">
                   <font>
-                   <family>Agency FB</family>
+                   <family>SimSun-ExtB</family>
                    <pointsize>20</pointsize>
                   </font>
                  </property>
@@ -99,7 +99,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>Agency FB</family>
+                   <family>SimSun-ExtB</family>
                    <pointsize>20</pointsize>
                   </font>
                  </property>

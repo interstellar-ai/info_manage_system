@@ -154,7 +154,7 @@ void MainWindow::createMySQL_Table(){
     }
     qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowCardRecord("
                     "stu_ID INT not null,"
-                    "reason varchar(50),"
+                    "reason varchar(8),"
                     "borrow_time DATE not null,"
                     "return_time DATE)");
     if (qsQuery.exec()){
@@ -237,6 +237,7 @@ void MainWindow::saveCard_info(Card_info card_info){
         QSqlError error(qsQuery.lastError());
         QMessageBox::warning(this, "警告", error.text());
     }
+    QMessageBox::information(this, "通知", "录入成功");
 }
 
 void MainWindow::searchStuInfo(Account_info account_info){
