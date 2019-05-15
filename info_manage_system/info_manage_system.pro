@@ -26,30 +26,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    getcarduid.cpp \
         main.cpp \
         mainwindow.cpp \
     in_out_account_page.cpp \
-    recordcardnumber.cpp \
     search_page.cpp \
     account_card_borrow_page.cpp \
-    login_page.cpp
+    login_page.cpp \
+    searchpage.cpp
 
 HEADERS += \
     data_struct.h \
+    getcarduid.h \
         mainwindow.h \
     in_out_account_page.h \
-    recordcardnumber.h \
     search_page.h \
     account_card_borrow_page.h \
-    login_page.h
+    login_page.h \
+    searchpage.h
 
 FORMS += \
+    form.ui \
+    getcarduid.ui \
         mainwindow.ui \
     in_out_account_page.ui \
-    recordcardnumber.ui \
     search_page.ui \
     account_card_borrow_page.ui \
-    login_page.ui
+    login_page.ui \
+    searchpage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

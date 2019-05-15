@@ -28,9 +28,12 @@ public:
 
 signals:
     void searchResult(Account_info account_info);
+    void searchResult_3(BorrowCard);
+
+    void searchResult_2(Account_info account_info);
+
     void searchResult_m(Account_info account_info);
     void empty_lineEdit();
-
 private slots:
     void on_in_out_account_clicked();
 
@@ -46,16 +49,23 @@ private slots:
 
     void searchStuInfo(Account_info account_info);
 
-    void addOutAccountTime(Account_info account_info);
-    void addTime(Account_info account_info);
+    void searchStuInfo_2(Account_info account_info);
 
-    void readStu_ID_info(Account_info account_info);
+    void addOutAccountTime(Account_info account_info);
+
+    void getCard_ID(Card_info card);
 
     void searchByMultiCodt(Account_info account_info);
 
     void on_readCardButton_clicked();
 
-    void saveCard_info(Card_info);
+    void save_UID_StuID(Card_info);
+
+    void addBorrowDate(BorrowCard);
+
+    void addBackDate(BorrowCard);
+
+    void searchBorrowTime(BorrowCard);
 
 private:
     void set_pushButton();

@@ -23,38 +23,45 @@ public:
 
 signals:
     void inputNameAndStuId(Account_info account_info);
-    void addTime(Account_info account_info);
-    void readStu_ID_info(Account_info account_info);
+    void getCard_ID(Card_info card);
+    void addBorrowDate(BorrowCard);
+    void addBackDate(BorrowCard);
+    void searchBorrowTime(BorrowCard);
 
 public slots:
     void searchResult(Account_info account_info);
-
-    void empty_lineEdit();
+    void searchResult_2(BorrowCard);
 
 private slots:
-    void on_borrowButton_clicked();
-
-    void on_returnButton_clicked();
 
     void on_searchButton_clicked();
-
-    void on_write_concelButton_clicked();
-
-    void on_write_OKButton_clicked();
 
     void on_readCardButton_clicked();
 
     void on_updateData_clicked();
 
+    void on_tabWidget_currentChanged(int index);
 
+    void on_okButton_clicked();
+
+    void on_okButton_2_clicked();
+
+    void on_readCardButton_2_clicked();
+
+    void on_concelButton_clicked();
+
+    void on_concelButton_2_clicked();
+
+    void on_searchButton_2_clicked();
 
 private:
     Ui::ACCOUNT_CARD_BORROW_PAGE *ui;
-    void init_in_out_account_page();
-
-    void restore_lineEdit_and_PushBuuton();
+    void empty_lineEdit();
+    void empty_lineEdit_2();
     void set_pushButton();
-    int index;
+    int index_;
+    QString photoPath_;
+    const QString format = "yyyy-MM-dd";
 };
 
 #endif // ACCOUNT_CARD_BORROW_PAGE_H

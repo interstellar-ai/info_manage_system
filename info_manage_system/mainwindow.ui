@@ -179,8 +179,8 @@ border-color: darkblue;</string>
            <string>绑卡</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>icon/readCard.png</normaloff>icon/readCard.png</iconset>
+           <iconset resource="icon.qrc">
+            <normaloff>:/icon/readCard.png</normaloff>:/icon/readCard.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -337,7 +337,7 @@ border-color: darkblue;</string>
         <widget class="QWidget" name="stackedWidgetPage4">
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="RecordCardNumber" name="readCardPage" native="true"/>
+           <widget class="GetCardUID" name="getCardUIDPage" native="true"/>
           </item>
          </layout>
         </widget>
@@ -384,9 +384,9 @@ border-color: darkblue;</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>RecordCardNumber</class>
+   <class>GetCardUID</class>
    <extends>QWidget</extends>
-   <header>recordcardnumber.h</header>
+   <header>getcarduid.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

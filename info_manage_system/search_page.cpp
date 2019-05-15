@@ -42,8 +42,6 @@ void SEARCH_PAGE::on_searchButton_clicked()
     account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
     account_info.account_in_time = ui->account_in_time->text();
     account_info.account_out_time = ui->account_out_time->text();
-    account_info.borrow_time = ui->borrow_time->text();
-    account_info.return_time = ui->return_time->text();
     emit searchByMultiCodt(account_info);
     ui->textEdit->clear();
     QString col = "stu_name, stu_ID, stu_college, stu_class, stu_sex,"
@@ -61,9 +59,7 @@ void SEARCH_PAGE::searchResult_s(Account_info account_info){
             account_info.stu_indentification_number + " "+
             account_info.stu_status_of_student_status + " "+
             account_info.account_in_time + " "+
-            account_info.account_out_time + " "+
-            account_info.borrow_time + " "+
-            account_info.return_time;
+            account_info.account_out_time;
     qDebug() << cont;
 //    ui->searchResult_edit->clear();
 //    ui->searchResult_edit->moveCursor(QTextCursor::End);

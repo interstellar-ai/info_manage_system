@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RecordCardNumber</class>
- <widget class="QWidget" name="RecordCardNumber">
+ <class>GetCardUID</class>
+ <widget class="QWidget" name="GetCardUID">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>829</width>
-    <height>570</height>
+    <width>665</width>
+    <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">

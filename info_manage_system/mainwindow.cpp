@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->readCardButton->setEnabled(false);
     init();
 
-    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage0);
-//    connect_database_();
+    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
+    connect_database_();
 }
 
 MainWindow::~MainWindow()
@@ -49,33 +49,95 @@ void MainWindow::init(){
             ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::searchResult);
     connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::addOutAccountTime,
             this, &MainWindow::addOutAccountTime);
-    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::readStu_ID_info,
-            this, &MainWindow::readStu_ID_info);
-    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::inputNameAndStuId,
-            this, &MainWindow::searchStuInfo);
-    connect(this, &MainWindow::searchResult,
-            ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchResult);
-    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::readStu_ID_info,
-            this, &MainWindow::readStu_ID_info);
-    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::addTime,
-            this, &MainWindow::addTime);
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::getCard_ID,
+            this, &MainWindow::getCard_ID);
     connect(this, &MainWindow::empty_lineEdit,
             ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::empty_lineEdit);
-    connect(this, &MainWindow::empty_lineEdit,
-            ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::empty_lineEdit);
+
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::inputNameAndStuId,
+            this, &MainWindow::searchStuInfo_2);
+    connect(this, &MainWindow::searchResult_2,
+            ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchResult);
+    connect(this, &MainWindow::searchResult_3,
+            ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchResult_2);
+
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::addBackDate,
+            this, &MainWindow::addBackDate);
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::addBorrowDate,
+            this, &MainWindow::addBorrowDate);
+
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchBorrowTime,
+            this, &MainWindow::searchBorrowTime);
+
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::getCard_ID,
+            this, &MainWindow::getCard_ID);
+
     connect(this, &MainWindow::searchResult_m,
             ui->search_page, &SEARCH_PAGE::searchResult_s);
     connect(ui->search_page, &SEARCH_PAGE::searchByMultiCodt,
             this, &MainWindow::searchByMultiCodt);
-    connect(ui->readCardPage, &RecordCardNumber::saveCard_info,
-            this, &MainWindow::saveCard_info);
+    connect(ui->getCardUIDPage, &GetCardUID::save_UID_StuID,
+            this, &MainWindow::save_UID_StuID);
     createDir();
 }
 
+void MainWindow::addBackDate(BorrowCard card){
+    qsQuery.prepare("update borrowrecord set return_time = :return_time_ "
+                    "where stu_ID = :stu_ID_ AND borrow_time = :borrow_time_");
+    qsQuery.bindValue(":return_time_", card.backDate);
+    qsQuery.bindValue(":stu_ID_", card.stu_ID);
+    qsQuery.bindValue(":borrow_time_", card.borrowDate);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+    else {
+        QMessageBox::information(this, "通知", "添加成功");
+    }
+}
 
-void MainWindow::readStu_ID_info(Account_info account_info){
-    qsQuery.prepare("select * from stu_info where stu_ID = :stu_ID_");
-    qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
+void MainWindow::searchBorrowTime(BorrowCard card){
+    qsQuery.prepare("select * from  borrowrecord where stu_ID  = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", card.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.last()){ // result is not empty
+        card.reason = qsQuery.value("reason").toString();
+        card.borrowDate = qsQuery.value("borrow_time").toString();
+        card.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult_3(card);
+    }
+    else {
+        QMessageBox::warning(this, "警告", "查无此人");
+    }
+
+}
+
+void MainWindow::addBorrowDate(BorrowCard card){
+    qsQuery.prepare("INSERT INTO borrowRecord(stu_ID, reason,"
+                    "borrow_time,photoPath)"
+                    "VALUES (:stu_ID_, :reason_,"
+                    ":borrow_time_, :photoPath_)");
+    qsQuery.bindValue(":stu_ID_", card.stu_ID);
+    qsQuery.bindValue(":reason_", card.reason);
+    qsQuery.bindValue(":borrow_time_", card.borrowDate);
+    qsQuery.bindValue(":photoPath_", card.photoPath);
+    if (qsQuery.exec()){
+        QMessageBox::information(this, "通知", "添加成功");
+    }
+    else {
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+}
+
+
+void MainWindow::getCard_ID(Card_info card){
+    qsQuery.prepare("select * from  stu_info where stu_ID  = (select stu_ID from card where card_ID = :card_ID_)");
+    qsQuery.bindValue(":card_ID_", card.card_ID);
 //    qDebug() << "account_info.stu_ID: " << account_info.stu_ID;
     if (!qsQuery.exec()){
         QSqlError error(qsQuery.lastError());
@@ -83,16 +145,15 @@ void MainWindow::readStu_ID_info(Account_info account_info){
         return;
     }
     if(qsQuery.first()){ // result is not empty
+        Account_info account_info;
         account_info.stu_name = qsQuery.value("stu_name").toString();
+        account_info.stu_ID = qsQuery.value("stu_ID").toInt();
         account_info.stu_college = qsQuery.value("stu_college").toString();
         account_info.stu_class = qsQuery.value("stu_class").toString();
         account_info.stu_sex = qsQuery.value("stu_sex").toString();
         account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
         account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
         account_info.account_in_time = qsQuery.value("account_in_time").toString();
-        account_info.account_out_time = qsQuery.value("account_out_time").toString();
-        account_info.borrow_time = qsQuery.value("borrow_time").toString();
-        account_info.return_time = qsQuery.value("return_time").toString();
         account_info.photoPath = qsQuery.value("photoPath").toString();
         emit searchResult(account_info);
     }
@@ -116,9 +177,9 @@ void MainWindow::connect_database_(){
         QMessageBox::warning(this, "警告", "username or password error");
         return;
     }
-    createMySQL_Table();
     restoreToolButton();
     qsQuery = QSqlQuery(db);
+    createMySQL_Table();
 }
 
 void MainWindow::createMySQL_Table(){
@@ -132,8 +193,6 @@ void MainWindow::createMySQL_Table(){
                     "stu_status_of_student_status varchar(20) not null,"
                     "account_in_time  varchar(20) not null, "
                     "account_out_time varchar(20),"
-                    "borrow_time varchar(20),"
-                    "return_time varchar(20),"
                     "photoPath varchar(50))");
     if (qsQuery.exec()){
 //        QMessageBox::information(this, "通知", "stu_info 表 创建成功");
@@ -143,8 +202,9 @@ void MainWindow::createMySQL_Table(){
         QMessageBox::warning(this, "警告", error.text());
     }
     qsQuery.prepare("CREATE TABLE IF NOT EXISTS card("
-                    "card_ID varchar(50) not null,"
-                    "stu_ID INT primary key)");
+                    "card_ID varchar(8) not null,"
+                    "stu_ID INT primary key,"
+                    "UNIQUE KEY (card_ID))");
     if (qsQuery.exec()){
 //        QMessageBox::information(this, "通知", "card 表 创建成功");
     }
@@ -152,13 +212,14 @@ void MainWindow::createMySQL_Table(){
         QSqlError error(qsQuery.lastError());
         QMessageBox::warning(this, "警告", error.text());
     }
-    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowCardRecord("
+    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowRecord("
                     "stu_ID INT not null,"
-                    "reason varchar(8),"
-                    "borrow_time DATE not null,"
-                    "return_time DATE)");
+                    "reason varchar(10),"
+                    "borrow_time varchar(10) not null,"
+                    "return_time varchar(10),"
+                    "photoPath varchar(50))");
     if (qsQuery.exec()){
-//        QMessageBox::information(this, "通知", "borrowCardRecord 表 创建成功");
+//        QMessageBox::information(this, "通知", "borrowRecord 表 创建成功");
     }
     else {
         QSqlError error(qsQuery.lastError());
@@ -208,6 +269,7 @@ void MainWindow::addAccount(Account_info account_info){
     qsQuery.bindValue(":photoPath", account_info.photoPath);
     if (qsQuery.exec()){
         QMessageBox::information(this, "通知", "添加成功");
+        emit empty_lineEdit();
     }
     else {
         QSqlError error(qsQuery.lastError());
@@ -215,7 +277,7 @@ void MainWindow::addAccount(Account_info account_info){
     }
 }
 
-void MainWindow::saveCard_info(Card_info card_info){
+void MainWindow::save_UID_StuID(Card_info card_info){
     qsQuery.prepare("select * from card where stu_ID = :stu_ID_");
     qsQuery.bindValue(":stu_ID_", card_info.stu_ID);
     if (!qsQuery.exec()){
@@ -224,7 +286,14 @@ void MainWindow::saveCard_info(Card_info card_info){
         return;
     }
     if(qsQuery.first()){
-        qsQuery.prepare("update card set card_ID = :card_ID_ where stu_ID = :stu_ID_");
+        int res = QMessageBox::question(this, "提示", "此学号已绑定卡，确定绑定新卡吗？",
+                              QMessageBox::Ok, QMessageBox::Cancel);
+        if (res == 0){
+            qsQuery.prepare("update card set card_ID = :card_ID_ where stu_ID = :stu_ID_");
+        }
+        else {
+            return;
+        }
     }
     else {
         qsQuery.prepare("INSERT INTO card(card_ID, stu_ID)"
@@ -235,7 +304,8 @@ void MainWindow::saveCard_info(Card_info card_info){
     qsQuery.bindValue(":stu_ID_", card_info.stu_ID);
     if (!qsQuery.exec()){
         QSqlError error(qsQuery.lastError());
-        QMessageBox::warning(this, "警告", error.text());
+        QMessageBox::warning(this, "警告", "此卡已被绑定");
+        return;
     }
     QMessageBox::information(this, "通知", "录入成功");
 }
@@ -249,22 +319,37 @@ void MainWindow::searchStuInfo(Account_info account_info){
         return;
     }
     if(qsQuery.first()){ // result is not empty
-        if (qsQuery.value("stu_name").toString() == account_info.stu_name){
-            account_info.stu_college = qsQuery.value("stu_college").toString();
-            account_info.stu_class = qsQuery.value("stu_class").toString();
-            account_info.stu_sex = qsQuery.value("stu_sex").toString();
-            account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
-            account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
-            account_info.account_in_time = qsQuery.value("account_in_time").toString();
-            account_info.account_out_time = qsQuery.value("account_out_time").toString();
-            account_info.borrow_time = qsQuery.value("borrow_time").toString();
-            account_info.return_time = qsQuery.value("return_time").toString();
-            account_info.photoPath = qsQuery.value("photoPath").toString();
-            emit searchResult(account_info);
-        }
-        else{
-            QMessageBox::warning(this, "警告", "输入姓名和学号不匹配");
-        }
+        account_info.stu_name = qsQuery.value("stu_name").toString();
+        account_info.stu_college = qsQuery.value("stu_college").toString();
+        account_info.stu_class = qsQuery.value("stu_class").toString();
+        account_info.stu_sex = qsQuery.value("stu_sex").toString();
+        account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
+        account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
+        account_info.account_in_time = qsQuery.value("account_in_time").toString();
+//        account_info.account_out_time = qsQuery.value("account_out_time").toString();
+        account_info.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult(account_info);
+    }
+    else {
+        QMessageBox::warning(this, "警告", "查无此人");
+    }
+}
+
+void MainWindow::searchStuInfo_2(Account_info account_info){
+    qsQuery.prepare("select * from stu_info where stu_ID = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.first()){ // result is not empty
+        account_info.stu_name = qsQuery.value("stu_name").toString();
+        account_info.stu_college = qsQuery.value("stu_college").toString();
+        account_info.stu_class = qsQuery.value("stu_class").toString();
+        account_info.stu_sex = qsQuery.value("stu_sex").toString();
+        account_info.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult_2(account_info);
     }
     else {
         QMessageBox::warning(this, "警告", "查无此人");
@@ -344,24 +429,6 @@ void MainWindow::searchByMultiCodt(Account_info account_info){
             stm += "WHERE account_out_time <= :account_out_time_";
         }
     }
-    if (!account_info.borrow_time.isEmpty()){
-        if (hasWhere){
-            stm += " AND borrow_time >= :borrow_time_";
-        }
-        else {
-            hasWhere = true;
-            stm += "WHERE borrow_time >= :borrow_time_";
-        }
-    }
-    if (!account_info.return_time.isEmpty()){
-        if (hasWhere){
-            stm += " AND return_time <= :return_time_";
-        }
-        else {
-            hasWhere = true;
-            stm += "WHERE return_time <= :return_time_";
-        }
-    }
     getSearchResult(stm, account_info);
 }
 
@@ -385,10 +452,6 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
         qsQuery.bindValue(":account_in_time_", account_info.account_in_time);
     if (!account_info.account_out_time.isEmpty())
         qsQuery.bindValue(":account_out_time_", account_info.account_out_time);
-    if (!account_info.borrow_time.isEmpty())
-        qsQuery.bindValue(":borrow_time_", account_info.borrow_time);
-    if (!account_info.return_time.isEmpty())
-        qsQuery.bindValue(":return_time_", account_info.return_time);
     if (!qsQuery.exec()){
         qDebug() << qsQuery.lastQuery();
         QSqlError error(qsQuery.lastError());
@@ -408,8 +471,6 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
         account_info1.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
         account_info1.account_in_time = qsQuery.value("account_in_time").toString();
         account_info1.account_out_time = qsQuery.value("account_out_time").toString();
-        account_info1.borrow_time = qsQuery.value("borrow_time").toString();
-        account_info1.return_time = qsQuery.value("return_time").toString();
 //        account_info1.photoPath = qsQuery.value("photoPath").toString();
 //        qDebug() << "************" << account_info1.stu_name;
         emit searchResult_m(account_info1);
@@ -420,24 +481,6 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
 void MainWindow::addOutAccountTime(Account_info account_info){
     qsQuery.prepare("update stu_info set account_out_time = :account_out_time_ where stu_ID = :stu_ID_");
     qsQuery.bindValue(":account_out_time_", account_info.account_out_time);
-    qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
-//    qDebug() << account_info.stu_ID;
-//    qDebug() << account_info.account_out_time;
-    if (!qsQuery.exec()){
-        QSqlError error(qsQuery.lastError());
-        QMessageBox::warning(this, "警告", error.text());
-        return;
-    }
-    else {
-        QMessageBox::information(this, "通知", "添加成功");
-    }
-}
-
-void MainWindow::addTime(Account_info account_info){
-    qsQuery.prepare("update stu_info set borrow_time = :borrow_time,"
-                    "return_time = :return_time where stu_ID = :stu_ID_");
-    qsQuery.bindValue(":borrow_time", account_info.borrow_time);
-    qsQuery.bindValue(":return_time", account_info.return_time);
     qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
 //    qDebug() << account_info.stu_ID;
 //    qDebug() << account_info.account_out_time;
@@ -489,19 +532,17 @@ void MainWindow::set_pushButton(){
 void MainWindow::on_in_out_account_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
-    emit empty_lineEdit();
 }
 
 void MainWindow::on_account_card_borrow_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage2);
-    emit empty_lineEdit();
 }
 
 void MainWindow::on_search_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage3);
-    emit empty_lineEdit();
+
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){

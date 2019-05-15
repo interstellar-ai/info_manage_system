@@ -1,21 +1,20 @@
-#include "recordcardnumber.h"
-#include "ui_recordcardnumber.h"
+#include "getcarduid.h"
+#include "ui_getcarduid.h"
 
-RecordCardNumber::RecordCardNumber(QWidget *parent) :
+GetCardUID::GetCardUID(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RecordCardNumber)
+    ui(new Ui::GetCardUID)
 {
     ui->setupUi(this);
 }
 
-RecordCardNumber::~RecordCardNumber()
+GetCardUID::~GetCardUID()
 {
     delete ui;
 }
 
 
-
-void RecordCardNumber::on_readButton_clicked()
+void GetCardUID::on_readButton_clicked()
 {
     ui->card_ID_edit->clear();
     QSerialPort serialPort;
@@ -50,7 +49,7 @@ void RecordCardNumber::on_readButton_clicked()
 //    emit card_ID_s(card_info);
 }
 
-void RecordCardNumber::on_entryButton_clicked()
+void GetCardUID::on_entryButton_clicked()
 {
     if (ui->card_ID_edit->text().isEmpty() ||
             ui->stu_ID_edit->text().isEmpty()){
@@ -60,10 +59,10 @@ void RecordCardNumber::on_entryButton_clicked()
     Card_info card_info;
     card_info.card_ID = ui->card_ID_edit->text();
     card_info.stu_ID = ui->stu_ID_edit->text().toInt();
-    emit saveCard_info(card_info);
+    emit save_UID_StuID(card_info);
 }
 
-void RecordCardNumber::on_clearButton_clicked()
+void GetCardUID::on_clearButton_clicked()
 {
     ui->card_ID_edit->clear();
     ui->stu_ID_edit->clear();

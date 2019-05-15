@@ -1,5 +1,5 @@
-#ifndef RECORDCARDNUMBER_H
-#define RECORDCARDNUMBER_H
+#ifndef GETCARDUID_H
+#define GETCARDUID_H
 
 #include <QWidget>
 #include <QSerialPort>
@@ -8,24 +8,23 @@
 #include <QDebug>
 #include "data_struct.h"
 
+
 namespace Ui {
-class RecordCardNumber;
+class GetCardUID;
 }
 
-class RecordCardNumber : public QWidget
+class GetCardUID : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit RecordCardNumber(QWidget *parent = nullptr);
-    ~RecordCardNumber();
-
+    explicit GetCardUID(QWidget *parent = nullptr);
+    ~GetCardUID();
 
 signals:
-    void saveCard_info(Card_info);
+    void save_UID_StuID(Card_info);
 
 private slots:
-
 
     void on_readButton_clicked();
 
@@ -34,7 +33,7 @@ private slots:
     void on_clearButton_clicked();
 
 private:
-    Ui::RecordCardNumber *ui;
+    Ui::GetCardUID *ui;
 };
 
-#endif // RECORDCARDNUMBER_H
+#endif // GETCARDUID_H
