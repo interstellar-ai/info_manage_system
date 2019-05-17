@@ -266,19 +266,19 @@ void MainWindow::createMySQL_Table(){
         QSqlError error(qsQuery.lastError());
         QMessageBox::warning(this, "警告", error.text());
     }
-    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowRecord("
-                    "stu_ID INT not null,"
-                    "reason varchar(10),"
-                    "borrow_time varchar(10) not null,"
-                    "return_time varchar(10),"
-                    "photoPath varchar(50))");
-    if (qsQuery.exec()){
-//        QMessageBox::information(this, "通知", "borrowRecord 表 创建成功");
-    }
-    else {
-        QSqlError error(qsQuery.lastError());
-        QMessageBox::warning(this, "警告", error.text());
-    }
+//    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowRecord("
+//                    "stu_ID INT not null AUTO_INCREMENT,"
+//                    "reason varchar(10),"
+//                    "borrow_time varchar(10) not null,"
+//                    "return_time varchar(10),"
+//                    "photoPath varchar(50))");
+//    if (qsQuery.exec()){
+////        QMessageBox::information(this, "通知", "borrowRecord 表 创建成功");
+//    }
+//    else {
+//        QSqlError error(qsQuery.lastError());
+//        QMessageBox::warning(this, "警告", error.text());
+//    }
 }
 
 void MainWindow::connect_database(QString usr, QString passwd){
@@ -411,7 +411,7 @@ void MainWindow::searchStuInfo_2(Account_info account_info){
 }
 
 void MainWindow::searchByMultiCodt(Account_info account_info, BorrowCard card){
-    QString stm = "SELECT * FROM stu_info UNINO ALL select *  borrowrecord ON a.stu_ID = b.stu_ID ";
+    QString stm = "SELECT * FROM stu_info a LEFT JOIN  borrowrecord b ON a.stu_ID = b.stu_ID ";
     bool hasWhere = false;
     if (account_info.stu_ID != 0){
         stm += "WHERE a.stu_ID = :stu_ID_";
@@ -510,7 +510,7 @@ void MainWindow::searchByMultiCodt(Account_info account_info, BorrowCard card){
             stm += "WHERE b.return_time <= :backDate_";
         }
     }
-    stm += " ORDER BY stu_info.stu_ID ASC";
+    stm += " ORDER BY a.stu_ID ASC";
     getSearchResult(stm, account_info, card);
 }
 

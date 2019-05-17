@@ -100,6 +100,7 @@ void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
         ui->account_out_time->setEnabled(true);
     }
     else {
+        empty_lineEdit_2();
         ui->stu_ID_2->setEnabled(false);
         ui->stu_name_2->setText(account_info.stu_name);
         ui->stu_ID_2->setText(QString::number(account_info.stu_ID));

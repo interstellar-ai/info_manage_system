@@ -6,6 +6,11 @@ SearchPage::SearchPage(QWidget *parent) :
     ui(new Ui::SearchPage)
 {
     ui->setupUi(this);
+    ui->tableWidget->setColumnCount(12);
+    QStringList strList;
+    strList << "姓名" << "学号" << "学院" << "班级" << "性别" << "身份号码" << "学籍情况"
+            << "入户时间" << "出户时间" << "借卡原因" << "借卡时间" << "还卡时间";
+    ui->tableWidget->setHorizontalHeaderLabels(strList);
 }
 
 SearchPage::~SearchPage()
@@ -49,12 +54,9 @@ void SearchPage::on_searchButton_clicked()
         return;
     }
 
-    ui->tableWidget->clearContents();
-    ui->tableWidget->setColumnCount(12);
-    QStringList strList;
-    strList << "姓名" << "学号" << "学院" << "班级" << "性别" << "身份号码" << "学籍情况"
-            << "入户时间" << "出户时间" << "借卡原因" << "借卡时间" << "还卡时间";
-    ui->tableWidget->setHorizontalHeaderLabels(strList);
+    while (ui->tableWidget->rowCount()){
+        ui->tableWidget->removeRow(ui->tableWidget->rowCount() - 1);
+    }
     rowCur = 0;
 
     emit searchByMultiCodt(account_info, card);

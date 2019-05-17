@@ -107,6 +107,7 @@ void ACCOUNT_CARD_BORROW_PAGE::on_searchButton_clicked()
 }
 
 void ACCOUNT_CARD_BORROW_PAGE::searchResult_2(BorrowCard card){
+    empty_lineEdit_2();
     ui->stu_ID_2->setEnabled(false);
     ui->stu_ID_2->setText(QString::number(card.stu_ID));
     ui->reason_2->setText(card.reason);
@@ -119,6 +120,7 @@ void ACCOUNT_CARD_BORROW_PAGE::searchResult_2(BorrowCard card){
 }
 
 void ACCOUNT_CARD_BORROW_PAGE::searchResult(Account_info account_info){
+    empty_lineEdit();
     ui->stu_ID->setEnabled(false);
     ui->stu_name->setText(account_info.stu_name);
     ui->stu_ID->setText(QString::number(account_info.stu_ID));
