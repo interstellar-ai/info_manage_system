@@ -23,7 +23,8 @@ public:
 
 signals:
     void inputNameAndStuId(Account_info account_info);
-    void getCard_ID(Card_info card);
+    void getCard_ID_1(Card_info);
+    void getCard_ID_2(Card_info);
     void addBorrowDate(BorrowCard);
     void addBackDate(BorrowCard);
     void searchBorrowTime(BorrowCard);
@@ -31,6 +32,7 @@ signals:
 public slots:
     void searchResult(Account_info account_info);
     void searchResult_2(BorrowCard);
+    void searchResult_4(Account_info account_info);
 
 private slots:
 
@@ -59,6 +61,7 @@ private:
     void empty_lineEdit();
     void empty_lineEdit_2();
     void set_pushButton();
+    bool isDate(QString);
     int index_;
     QString photoPath_;
     const QString format = "yyyy-MM-dd";

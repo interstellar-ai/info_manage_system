@@ -58,6 +58,7 @@ void MainWindow::init(){
             this, &MainWindow::searchStuInfo_2);
     connect(this, &MainWindow::searchResult_2,
             ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchResult);
+
     connect(this, &MainWindow::searchResult_3,
             ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchResult_2);
 
@@ -69,13 +70,18 @@ void MainWindow::init(){
     connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchBorrowTime,
             this, &MainWindow::searchBorrowTime);
 
-    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::getCard_ID,
-            this, &MainWindow::getCard_ID);
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::getCard_ID_1,
+            this, &MainWindow::getCard_ID_1);
+    connect(this, &MainWindow::searchResult_4,
+            ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::searchResult_4);
 
-    connect(this, &MainWindow::searchResult_m,
-            ui->search_page, &SEARCH_PAGE::searchResult_s);
-    connect(ui->search_page, &SEARCH_PAGE::searchByMultiCodt,
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::getCard_ID_2,
+            this, &MainWindow::getCard_ID_2);
+
+    connect(ui->searchpage, &SearchPage::searchByMultiCodt,
             this, &MainWindow::searchByMultiCodt);
+    connect(this, &MainWindow::searchResult_m,
+            ui->searchpage, &SearchPage::searchResult_m);
     connect(ui->getCardUIDPage, &GetCardUID::save_UID_StuID,
             this, &MainWindow::save_UID_StuID);
     createDir();
@@ -134,6 +140,54 @@ void MainWindow::addBorrowDate(BorrowCard card){
     }
 }
 
+void MainWindow::getCard_ID_2(Card_info card){
+    qsQuery.prepare("select * from  borrowrecord where stu_ID  = (select stu_ID from card where card_ID = :card_ID_)");
+    qsQuery.bindValue(":card_ID_", card.card_ID);
+//    qDebug() << "account_info.stu_ID: " << account_info.stu_ID;
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.last()){ // result is not empty
+        BorrowCard card;
+        card.stu_ID =qsQuery.value("stu_ID").toInt();
+        card.reason = qsQuery.value("reason").toString();
+        card.borrowDate = qsQuery.value("borrow_time").toString();
+        card.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult_3(card);
+    }
+    else {
+        QMessageBox::warning(this, "警告", "查无此人");
+    }
+}
+
+void MainWindow::getCard_ID_1(Card_info card){
+    qsQuery.prepare("select * from  stu_info where stu_ID  = (select stu_ID from card where card_ID = :card_ID_)");
+    qsQuery.bindValue(":card_ID_", card.card_ID);
+//    qDebug() << "account_info.stu_ID: " << account_info.stu_ID;
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.first()){ // result is not empty
+        Account_info account_info;
+        account_info.stu_name = qsQuery.value("stu_name").toString();
+        account_info.stu_ID = qsQuery.value("stu_ID").toInt();
+        account_info.stu_college = qsQuery.value("stu_college").toString();
+        account_info.stu_class = qsQuery.value("stu_class").toString();
+        account_info.stu_sex = qsQuery.value("stu_sex").toString();
+        account_info.stu_indentification_number = qsQuery.value("stu_indentification_number").toString();
+        account_info.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
+        account_info.account_in_time = qsQuery.value("account_in_time").toString();
+        account_info.photoPath = qsQuery.value("photoPath").toString();
+        emit searchResult_4(account_info);
+    }
+    else {
+        QMessageBox::warning(this, "警告", "查无此人");
+    }
+}
 
 void MainWindow::getCard_ID(Card_info card){
     qsQuery.prepare("select * from  stu_info where stu_ID  = (select stu_ID from card where card_ID = :card_ID_)");
@@ -356,83 +410,111 @@ void MainWindow::searchStuInfo_2(Account_info account_info){
     }
 }
 
-void MainWindow::searchByMultiCodt(Account_info account_info){
-    QString stm = "SELECT * FROM stu_info ";
+void MainWindow::searchByMultiCodt(Account_info account_info, BorrowCard card){
+    QString stm = "SELECT * FROM stu_info UNINO ALL select *  borrowrecord ON a.stu_ID = b.stu_ID ";
     bool hasWhere = false;
     if (account_info.stu_ID != 0){
-        stm += "WHERE stu_ID = :stu_ID_";
+        stm += "WHERE a.stu_ID = :stu_ID_";
         hasWhere = true;
     }
     if (!account_info.stu_indentification_number.isEmpty()){
         if (hasWhere)
-            stm += " AND stu_indentification_number = :stu_indentification_number_";
+            stm += " AND a.stu_indentification_number = :stu_indentification_number_";
         else
-            stm += "WHERE stu_indentification_number = :stu_indentification_number_";
+            stm += "WHERE a.stu_indentification_number = :stu_indentification_number_";
     }
     if (!account_info.stu_sex.isEmpty()){
         if (hasWhere)
-            stm += " AND stu_sex = :stu_sex_";
+            stm += " AND a.stu_sex = :stu_sex_";
         else
-            stm += "WHERE stu_sex = :stu_sex_";
+            stm += "WHERE a.stu_sex = :stu_sex_";
     }
     if (!account_info.stu_name.isEmpty()){
         if (hasWhere){
-            stm += " AND stu_name = :stu_name_";
+            stm += " AND a.stu_name = :stu_name_";
         }
         else {
             hasWhere = true;
-            stm += "where stu_name = :stu_name_";
+            stm += "where a.stu_name = :stu_name_";
         }
     }
     if (!account_info.stu_class.isEmpty()){
         if(hasWhere){
-            stm += " AND stu_class = :stu_class_";
+            stm += " AND a.stu_class = :stu_class_";
         }
         else {
             hasWhere = true;
-            stm += "WHERE stu_class = :stu_class_";
+            stm += "WHERE a.stu_class = :stu_class_";
         }
     }
     if (!account_info.stu_college.isEmpty()){
         if (hasWhere){
-            stm += " AND stu_college = :stu_college_";
+            stm += " AND a.stu_college = :stu_college_";
         }
         else {
             hasWhere = true;
-            stm += "WHERE stu_college = :stu_college_";
+            stm += "WHERE a.stu_college = :stu_college_";
         }
     }
     if (!account_info.stu_status_of_student_status.isEmpty()){
         if (hasWhere){
-            stm += " AND stu_status_of_student_status = :stu_status_of_student_status_";
+            stm += " AND a.stu_status_of_student_status = :stu_status_of_student_status_";
         }
         else {
             hasWhere = true;
-            stm += "WHERE stu_status_of_student_status = :stu_status_of_student_status_";
+            stm += "WHERE a.stu_status_of_student_status = :stu_status_of_student_status_";
         }
     }
     if (!account_info.account_in_time.isEmpty()){
         if (hasWhere){
-            stm += " AND account_in_time >= :account_in_time_";
+            stm += " AND a.account_in_time >= :account_in_time_";
         }
         else {
             hasWhere = true;
-            stm += "WHERE account_in_time >= :account_in_time_";
+            stm += "WHERE a.account_in_time >= :account_in_time_";
         }
     }
     if (!account_info.account_out_time.isEmpty()){
         if (hasWhere){
-            stm += " AND account_out_time <= :account_out_time_";
+            stm += " AND a.account_out_time <= :account_out_time_";
         }
         else {
             hasWhere = true;
-            stm += "WHERE account_out_time <= :account_out_time_";
+            stm += "WHERE a.account_out_time <= :account_out_time_";
         }
     }
-    getSearchResult(stm, account_info);
+    if (!card.reason.isEmpty()){
+        if (hasWhere){
+            stm += " AND b.reason = :reason_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE b.reason = :reason_";
+        }
+    }
+    if (!card.borrowDate.isEmpty()){
+        if (hasWhere){
+            stm += " AND b.borrow_time >= :borrowDate_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE b.borrow_time >= :borrowDate_";
+        }
+    }
+    if (!card.backDate.isEmpty()){
+        if (hasWhere){
+            stm += " AND b.return_time <= :backDate_";
+        }
+        else {
+            hasWhere = true;
+            stm += "WHERE b.return_time <= :backDate_";
+        }
+    }
+    stm += " ORDER BY stu_info.stu_ID ASC";
+    getSearchResult(stm, account_info, card);
 }
 
-void MainWindow::getSearchResult(QString stm, Account_info account_info){
+void MainWindow::getSearchResult(QString stm, Account_info account_info, BorrowCard card){
     qsQuery.prepare(stm);
     if (account_info.stu_ID != 0)
         qsQuery.bindValue(":stu_ID_", account_info.stu_ID);
@@ -452,6 +534,12 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
         qsQuery.bindValue(":account_in_time_", account_info.account_in_time);
     if (!account_info.account_out_time.isEmpty())
         qsQuery.bindValue(":account_out_time_", account_info.account_out_time);
+    if (!card.reason.isEmpty())
+        qsQuery.bindValue(":reason_", card.reason);
+    if (!card.borrowDate.isEmpty())
+        qsQuery.bindValue(":borrowDate_", card.borrowDate);
+    if (!card.backDate.isEmpty())
+        qsQuery.bindValue(":backDate_", card.backDate);
     if (!qsQuery.exec()){
         qDebug() << qsQuery.lastQuery();
         QSqlError error(qsQuery.lastError());
@@ -471,9 +559,10 @@ void MainWindow::getSearchResult(QString stm, Account_info account_info){
         account_info1.stu_status_of_student_status = qsQuery.value("stu_status_of_student_status").toString();
         account_info1.account_in_time = qsQuery.value("account_in_time").toString();
         account_info1.account_out_time = qsQuery.value("account_out_time").toString();
-//        account_info1.photoPath = qsQuery.value("photoPath").toString();
-//        qDebug() << "************" << account_info1.stu_name;
-        emit searchResult_m(account_info1);
+        card.reason = qsQuery.value("reason").toString();
+        card.borrowDate = qsQuery.value("borrow_time").toString();
+        card.backDate = qsQuery.value("return_time").toString();
+        emit searchResult_m(account_info1, card);
     }
 }
 

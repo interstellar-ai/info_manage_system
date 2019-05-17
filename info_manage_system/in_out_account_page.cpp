@@ -235,6 +235,10 @@ void IN_OUT_ACCOUNT_PAGE::on_okButton_clicked()
     account_info.stu_indentification_number = ui->stu_indentification_number->text();
     account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
     account_info.account_in_time = ui->account_in_time->text();
+    if (!isDate(ui->account_in_time->text())){
+        QMessageBox::warning(this, "警告", "日期格式错误");
+        return;
+    }
     account_info.photoPath = photoPath_;
     emit addAccount(account_info);
 }
@@ -248,5 +252,29 @@ void IN_OUT_ACCOUNT_PAGE::on_okButton_2_clicked()
     }
     account_info.stu_ID = ui->stu_ID_2->text().toInt();
     account_info.account_out_time = ui->account_out_time_2->text();
+    if (!isDate(ui->account_out_time_2->text())){
+        QMessageBox::warning(this, "警告", "日期格式错误");
+        return;
+    }
+    if (ui->account_out_time_2->text() < ui->account_in_time_2->text()){
+        QMessageBox::warning(this, "警告", "出户时间不能比入户时间早");
+        return;
+    }
     emit addOutAccountTime(account_info);
+}
+
+bool IN_OUT_ACCOUNT_PAGE::isDate(QString date){
+    QStringList list = date.split("-");
+    if (list.size() != 3)
+        return false;
+    int md[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    int y = list[0].toInt();
+    int m = list[1].toInt();
+    int d = list[2].toInt();
+    md[1] = ((y%4 == 0 && y%100 != 0) || y%400==0) ? 29 : 28;//闰年调整
+    if(y>0 && m>0 && m<13 && d>0 && d<=md[m-1])
+        return true;
+    else {
+        return false;
+    }
 }

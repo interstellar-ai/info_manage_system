@@ -65,6 +65,7 @@ private:
     Ui::IN_OUT_ACCOUNT_PAGE *ui;
     QString photoPath_;
     int index_;
+    bool isDate(QString);
 };
 
 #endif // IN_OUT_ACCOUNT_PAGE_H
