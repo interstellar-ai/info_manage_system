@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql axcontainer
 QT += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    excelengine.cpp \
     getcarduid.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
 
 HEADERS += \
     data_struct.h \
+    excelengine.h \
     getcarduid.h \
         mainwindow.h \
     in_out_account_page.h \
@@ -44,7 +46,6 @@ HEADERS += \
     searchpage.h
 
 FORMS += \
-    form.ui \
     getcarduid.ui \
         mainwindow.ui \
     in_out_account_page.ui \

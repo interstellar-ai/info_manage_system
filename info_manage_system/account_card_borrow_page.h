@@ -7,6 +7,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QDebug>
+#include <QFileDialog>
 #include <QTime>
 
 namespace Ui {
@@ -28,6 +29,7 @@ signals:
     void addBorrowDate(BorrowCard);
     void addBackDate(BorrowCard);
     void searchBorrowTime(BorrowCard);
+    void borrow_record_import(QString);
 
 public slots:
     void searchResult(Account_info account_info);
@@ -55,6 +57,10 @@ private slots:
     void on_concelButton_2_clicked();
 
     void on_searchButton_2_clicked();
+
+    void on_importButton_2_clicked();
+
+    void on_importButton_clicked();
 
 private:
     Ui::ACCOUNT_CARD_BORROW_PAGE *ui;

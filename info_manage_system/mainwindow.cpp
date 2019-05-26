@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->readCardButton->setEnabled(false);
     init();
 
-    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage1);
-    connect_database_();
+    ui->stackedWidget->setCurrentWidget(ui->stackedWidgetPage0);
+//    connect_database_();
 }
 
 MainWindow::~MainWindow()
@@ -85,6 +85,21 @@ void MainWindow::init(){
     connect(ui->getCardUIDPage, &GetCardUID::save_UID_StuID,
             this, &MainWindow::save_UID_StuID);
     createDir();
+}
+
+void MainWindow::import_account_info(QString excel){
+
+}
+
+void MainWindow::borrow_record_import(QString excelFile){
+//    ExcelEngine excelEng(excelFile);
+//    bool ok = excelEng.Open();
+//    if (ok){
+
+//    }
+//    else {
+//        QMessageBox::warning(this, "警告", "打开失败");
+//    }
 }
 
 void MainWindow::addBackDate(BorrowCard card){
@@ -266,19 +281,19 @@ void MainWindow::createMySQL_Table(){
         QSqlError error(qsQuery.lastError());
         QMessageBox::warning(this, "警告", error.text());
     }
-//    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowRecord("
-//                    "stu_ID INT not null AUTO_INCREMENT,"
-//                    "reason varchar(10),"
-//                    "borrow_time varchar(10) not null,"
-//                    "return_time varchar(10),"
-//                    "photoPath varchar(50))");
-//    if (qsQuery.exec()){
-////        QMessageBox::information(this, "通知", "borrowRecord 表 创建成功");
-//    }
-//    else {
-//        QSqlError error(qsQuery.lastError());
-//        QMessageBox::warning(this, "警告", error.text());
-//    }
+    qsQuery.prepare("CREATE TABLE IF NOT EXISTS borrowRecord("
+                    "stu_ID INT not null,"
+                    "reason varchar(10),"
+                    "borrow_time varchar(10) not null,"
+                    "return_time varchar(10),"
+                    "photoPath varchar(50))");
+    if (qsQuery.exec()){
+//        QMessageBox::information(this, "通知", "borrowRecord 表 创建成功");
+    }
+    else {
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
 }
 
 void MainWindow::connect_database(QString usr, QString passwd){

@@ -11,8 +11,11 @@
 #include <QSqlError>
 #include <QSqlRecord>
 #include <QDir>
+#include <QAxBase>
+#include <QAxObject>
 //#include <readcard.h>
 #include <QThread>
+#include "excelengine.h"
 
 namespace Ui {
 class MainWindow;
@@ -71,6 +74,10 @@ private slots:
     void addBackDate(BorrowCard);
 
     void searchBorrowTime(BorrowCard);
+
+    void borrow_record_import(QString);
+
+    void import_account_info(QString);
 
 private:
     void set_pushButton();

@@ -279,3 +279,19 @@ bool IN_OUT_ACCOUNT_PAGE::isDate(QString date){
         return false;
     }
 }
+
+void IN_OUT_ACCOUNT_PAGE::on_importButton_clicked()
+{
+    QString excel = QFileDialog::getOpenFileName(this, tr("打开文件"),
+                                                 "/home",
+                                                 tr("Excel (*.xlsx *.xlsm *.xltx *.xltm *.xlsb *.xlam)"));
+    if (excel != ""){
+        qDebug() << excel;
+        emit import_account_info(excel);
+    }
+}
+
+void IN_OUT_ACCOUNT_PAGE::on_importButton_2_clicked()
+{
+
+}

@@ -64,6 +64,7 @@ bool ACCOUNT_CARD_BORROW_PAGE::isDate(QString date){
     int md[] = {31,28,31,30,31,30,31,31,30,31,30,31};
     int y = list[0].toInt();
     int m = list[1].toInt();
+//    qDebug() << m;
     int d = list[2].toInt();
     md[1] = ((y%4 == 0 && y%100 != 0) || y%400==0) ? 29 : 28;//闰年调整
     if(y>0 && m>0 && m<13 && d>0 && d<=md[m-1])
@@ -304,4 +305,19 @@ void ACCOUNT_CARD_BORROW_PAGE::on_searchButton_2_clicked()
 
 void ACCOUNT_CARD_BORROW_PAGE::on_updateData_clicked(){
 
+}
+
+void ACCOUNT_CARD_BORROW_PAGE::on_importButton_2_clicked()
+{
+    on_importButton_clicked();
+}
+
+void ACCOUNT_CARD_BORROW_PAGE::on_importButton_clicked()
+{
+    QString excel = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                 "/home",
+                                                 tr("Excel (*.xlsx *.xlsm *.xltx *.xltm *.xlsb *.xlam)"));
+    if (excel != ""){
+        emit borrow_record_import(excel);
+    }
 }

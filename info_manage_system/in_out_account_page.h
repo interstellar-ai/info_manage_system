@@ -31,6 +31,7 @@ signals:
     void inputNameAndStuId(Account_info account_info);
     void addOutAccountTime(Account_info account_info);
     void getCard_ID(Card_info card);
+    void import_account_info(QString);
 
 
 public slots:
@@ -56,6 +57,10 @@ private slots:
     void on_okButton_clicked();
 
     void on_okButton_2_clicked();
+
+    void on_importButton_clicked();
+
+    void on_importButton_2_clicked();
 
 private:
     void set_pushButton();
