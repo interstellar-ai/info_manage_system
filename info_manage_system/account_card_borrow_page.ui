@@ -32,7 +32,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -338,46 +338,6 @@ QTabBar::tab:selected, QTabBar::tab:hover {
                </item>
                <item>
                 <widget class="QLineEdit" name="borrow_time">
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>20</pointsize>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_9">
-               <item>
-                <widget class="QLabel" name="label_16">
-                 <property name="font">
-                  <font>
-                   <family>宋体</family>
-                   <pointsize>20</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>归还时间：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_16">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="return_time">
                  <property name="font">
                   <font>
                    <family>宋体</family>

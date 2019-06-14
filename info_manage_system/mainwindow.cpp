@@ -84,6 +84,19 @@ void MainWindow::init(){
             ui->searchpage, &SearchPage::searchResult_m);
     connect(ui->getCardUIDPage, &GetCardUID::save_UID_StuID,
             this, &MainWindow::save_UID_StuID);
+
+    connect(ui->getCardUIDPage, &GetCardUID::unitedCard,
+            this, &MainWindow::unitedCard);
+    connect(ui->getCardUIDPage, &GetCardUID::searchCardUID,
+            this, &MainWindow::searchCardUID);
+    connect(this, &MainWindow::searchCardUIDRes,
+            ui->getCardUIDPage, &GetCardUID::searchCardUIDRes);
+
+    connect(ui->account_card_borrow_page, &ACCOUNT_CARD_BORROW_PAGE::borrow_record_import,
+            this, &MainWindow::borrow_record_import);
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::import_account_info,
+            this, &MainWindow::import_account_info);
+
     createDir();
 }
 
@@ -101,6 +114,32 @@ void MainWindow::borrow_record_import(QString excelFile){
 //        QMessageBox::warning(this, "警告", "打开失败");
 //    }
 }
+void MainWindow::searchCardUID(Card_info card){
+    qsQuery.prepare("select * from card where stu_ID  = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", card.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    card.card_ID = qsQuery.value("card_ID").toString();
+    emit searchCardUIDRes(card);
+}
+
+void MainWindow::unitedCard(Card_info card){
+    qsQuery.prepare("delete from  card where stu_ID  = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", card.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+    else {
+        QMessageBox::information(this, "提示", "解绑成功");
+    }
+
+}
+
+
 
 void MainWindow::addBackDate(BorrowCard card){
     qsQuery.prepare("update borrowrecord set return_time = :return_time_ "
@@ -358,6 +397,17 @@ void MainWindow::save_UID_StuID(Card_info card_info){
         int res = QMessageBox::question(this, "提示", "此学号已绑定卡，确定绑定新卡吗？",
                               QMessageBox::Ok, QMessageBox::Cancel);
         if (res == 0){
+            qsQuery.prepare("select * from card where card_ID = :card_ID_");
+            qsQuery.bindValue(":card_ID_", card_info.card_ID);
+            if (!qsQuery.exec()){
+                QSqlError error(qsQuery.lastError());
+                QMessageBox::warning(this, "警告", error.text());
+                return;
+            }
+            if(qsQuery.first()){
+                QMessageBox::warning(this, "警告", "此卡已被绑定");
+                return;
+            }
             qsQuery.prepare("update card set card_ID = :card_ID_ where stu_ID = :stu_ID_");
         }
         else {

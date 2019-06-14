@@ -36,8 +36,9 @@ signals:
     void searchResult_2(Account_info account_info);
 
     void searchResult_m(Account_info, BorrowCard);
-
+    void searchCardUIDRes(Card_info);
     void empty_lineEdit();
+
 private slots:
     void on_in_out_account_clicked();
 
@@ -78,6 +79,10 @@ private slots:
     void borrow_record_import(QString);
 
     void import_account_info(QString);
+
+    void unitedCard(Card_info);
+
+    void searchCardUID(Card_info);
 
 private:
     void set_pushButton();

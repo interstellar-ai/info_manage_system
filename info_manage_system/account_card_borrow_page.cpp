@@ -7,7 +7,13 @@ ACCOUNT_CARD_BORROW_PAGE::ACCOUNT_CARD_BORROW_PAGE(QWidget *parent) :
 {
     ui->setupUi(this);
     set_pushButton();
-//    initPage();
+    bool init = false;
+    ui->stu_sex->setEnabled(init);
+    ui->stu_name->setEnabled(init);
+    ui->stu_college->setEnabled(init);
+    ui->stu_class->setEnabled(init);
+    ui->reason_2->setEnabled(init);
+    ui->borrow_time_2->setEnabled(init);
     ui->tabWidget->setCurrentIndex(0);
     on_tabWidget_currentChanged(0);
 
@@ -19,42 +25,42 @@ ACCOUNT_CARD_BORROW_PAGE::~ACCOUNT_CARD_BORROW_PAGE()
 }
 
 void ACCOUNT_CARD_BORROW_PAGE::set_pushButton(){
-    ui->okButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->concelButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->importButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->readCardButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->searchButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->updateData->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->okButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->concelButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->importButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->readCardButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->searchButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->updateData->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
 }
 
 bool ACCOUNT_CARD_BORROW_PAGE::isDate(QString date){
@@ -82,7 +88,6 @@ void ACCOUNT_CARD_BORROW_PAGE::empty_lineEdit(){
     ui->stu_class->clear();
     ui->reason->clear();
     ui->borrow_time->clear();
-    ui->return_time->clear();
     ui->label->clear();
 }
 
@@ -174,34 +179,29 @@ void ACCOUNT_CARD_BORROW_PAGE::on_readCardButton_clicked()
 
 void ACCOUNT_CARD_BORROW_PAGE::on_tabWidget_currentChanged(int index)
 {
-    index_ = index;
-    if (index == 0){
-        bool init = false;
-        ui->stu_ID->setEnabled(!init);
-        ui->stu_sex->setEnabled(init);
-        ui->stu_name->setEnabled(init);
-        ui->stu_college->setEnabled(init);
-        ui->stu_class->setEnabled(init);
-        ui->reason->setEnabled(init);
-        ui->borrow_time->setEnabled(init);
-        ui->return_time->setEnabled(init);
-        ui->importButton->setEnabled(init);
-        ui->readCardButton->setEnabled(!init);
-        ui->searchButton->setEnabled(!init);
-        ui->updateData->setEnabled(init);
-        ui->okButton->setEnabled(init);
-    }
-    else {
-        bool init = false;
-        ui->stu_ID_2->setEnabled(!init);
-        ui->reason_2->setEnabled(init);
-        ui->borrow_time_2->setEnabled(init);
-        ui->return_time_2->setEnabled(init);
-        ui->importButton_2->setEnabled(!init);
-        ui->readCardButton_2->setEnabled(!init);
-        ui->searchButton_2->setEnabled(!init);
-        ui->okButton_2->setEnabled(init);
-    }
+//    index_ = index;
+//    if (index == 0){
+//        bool init = false;
+//        ui->stu_ID->setEnabled(!init);
+
+//        ui->reason->setEnabled(init);
+//        ui->borrow_time->setEnabled(init);
+//        ui->importButton->setEnabled(init);
+//        ui->readCardButton->setEnabled(!init);
+//        ui->searchButton->setEnabled(!init);
+//        ui->updateData->setEnabled(init);
+//        ui->okButton->setEnabled(init);
+//    }
+//    else {
+//        bool init = false;
+//        ui->stu_ID_2->setEnabled(!init);
+
+//        ui->return_time_2->setEnabled(init);
+//        ui->importButton_2->setEnabled(!init);
+//        ui->readCardButton_2->setEnabled(!init);
+//        ui->searchButton_2->setEnabled(!init);
+//        ui->okButton_2->setEnabled(init);
+//    }
 }
 
 void ACCOUNT_CARD_BORROW_PAGE::on_okButton_clicked()
@@ -211,13 +211,21 @@ void ACCOUNT_CARD_BORROW_PAGE::on_okButton_clicked()
         QMessageBox::warning(this, "警告", "借取时间不能为空");
         return;
     }
-    borwCard.stu_ID = ui->stu_ID->text().toInt();
-    borwCard.reason = ui->reason->text();
-    borwCard.borrowDate = ui->borrow_time->text();
+
     if (!isDate(ui->borrow_time->text())){
         QMessageBox::warning(this, "警告", "日期格式错误");
         return;
     }
+    QStringList list = ui->borrow_time->text().split('-');
+    if (list[1].size() == 1){
+        list[1] = '0' + list[1];
+    }
+    if (list[2].size() == 1){
+        list[2] = '0' + list[2];
+    }
+    borwCard.stu_ID = ui->stu_ID->text().toInt();
+    borwCard.reason = ui->reason->text();
+    borwCard.borrowDate = list[0] + list[1] + list[2];
     borwCard.photoPath = photoPath_;
     emit addBorrowDate(borwCard);
 }
@@ -226,20 +234,24 @@ void ACCOUNT_CARD_BORROW_PAGE::on_okButton_2_clicked()
 {
     BorrowCard borwCard;
     if (ui->return_time_2->text().isEmpty()){
-        QMessageBox::warning(this, "警告", "信息不能为空");
+        QMessageBox::warning(this, "警告", "归还时间不能为空");
         return;
     }
-    borwCard.stu_ID = ui->stu_ID_2->text().toInt();
-    borwCard.borrowDate = ui->borrow_time_2->text();
-    borwCard.backDate = ui->return_time_2->text();
     if (!isDate(ui->return_time_2->text())){
         QMessageBox::warning(this, "警告", "日期格式错误");
         return;
     }
-    if (ui->return_time_2->text() < ui->borrow_time_2->text()){
-        QMessageBox::warning(this, "警告", "借出时间比归还时间晚");
-        return;
+    QStringList list = ui->return_time_2->text().split('-');
+    if (list[1].size() == 1){
+        list[1] = '0' + list[1];
     }
+    if (list[2].size() == 1){
+        list[2] = '0' + list[2];
+    }
+    borwCard.stu_ID = ui->stu_ID_2->text().toInt();
+    borwCard.borrowDate = ui->borrow_time_2->text();
+    borwCard.backDate = list[0] + list[1] + list[2];
+//    qDebug() << borwCard.backDate;
     emit addBackDate(borwCard);
 }
 
@@ -278,7 +290,6 @@ void ACCOUNT_CARD_BORROW_PAGE::on_concelButton_clicked()
     ui->stu_ID->setEnabled(true);
     ui->reason->setEnabled(false);
     ui->borrow_time->setEnabled(false);
-    ui->return_time->setEnabled(false);
     ui->okButton->setEnabled(false);
     empty_lineEdit();
 }

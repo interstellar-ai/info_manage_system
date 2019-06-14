@@ -23,6 +23,11 @@ public:
 
 signals:
     void save_UID_StuID(Card_info);
+    void unitedCard(Card_info);
+    void searchCardUID(Card_info);
+
+public slots:
+    void searchCardUIDRes(Card_info);
 
 private slots:
 
@@ -31,6 +36,10 @@ private slots:
     void on_entryButton_clicked();
 
     void on_clearButton_clicked();
+
+    void on_untiedBut_clicked();
+
+    void on_searchBut_clicked();
 
 private:
     Ui::GetCardUID *ui;

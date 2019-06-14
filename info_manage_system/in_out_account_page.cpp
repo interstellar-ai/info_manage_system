@@ -16,30 +16,24 @@ IN_OUT_ACCOUNT_PAGE::~IN_OUT_ACCOUNT_PAGE()
 }
 
 void IN_OUT_ACCOUNT_PAGE::set_pushButton(){
-    ui->importButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->readCardButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->searchButton->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
-    ui->uploadPhoto->setStyleSheet(
-        "QPushButton{ background-color : rgb(85, 170, 255);"
-                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
-                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
-        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
-        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->importButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:20px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->searchButton->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
+//    ui->uploadPhoto->setStyleSheet(
+//        "QPushButton{ background-color : rgb(85, 170, 255);"
+//                "border:2px groove gray;border-radius:30px;padding:2px 4px;"
+//                "border-width: 3px;border-style: solid;border-color: darkblue;}" // 按键本色
+//        "QPushButton:hover{background-color:rgb(135, 203, 255);}"  // 鼠标停放时的色彩
+//        "QPushButton:pressed{background-color:rgb(85, 0, 255); border-style: inset; }");
 }
 
 void IN_OUT_ACCOUNT_PAGE::empty_lineEdit(){
@@ -51,7 +45,6 @@ void IN_OUT_ACCOUNT_PAGE::empty_lineEdit(){
     ui->stu_indentification_number->clear();
     ui->stu_status_of_student_status->clear();
     ui->account_in_time->clear();
-    ui->account_out_time->clear();
     ui->label->clear();
     photoPath_ = "";
 }
@@ -93,11 +86,9 @@ void IN_OUT_ACCOUNT_PAGE::searchResult(Account_info account_info){
         ui->stu_indentification_number->setText(account_info.stu_indentification_number);
         ui->stu_status_of_student_status->setText(account_info.stu_status_of_student_status);
         ui->account_in_time->setText(account_info.account_in_time);
-        ui->account_out_time->setText(account_info.account_out_time);
         QImage img;
         img.load(account_info.photoPath);
         ui->label->setPixmap(QPixmap::fromImage(img));
-        ui->account_out_time->setEnabled(true);
     }
     else {
         empty_lineEdit_2();
@@ -159,7 +150,15 @@ void IN_OUT_ACCOUNT_PAGE::on_tabWidget_currentChanged(int index)
 {
     index_ = index;
     if (index == 0){
-        ui->account_out_time->setEnabled(false);
+        bool init = true;
+        ui->stu_ID->setEnabled(init);
+        ui->stu_sex->setEnabled(init);
+        ui->stu_name->setEnabled(init);
+        ui->stu_college->setEnabled(init);
+        ui->stu_class->setEnabled(init);
+        ui->stu_indentification_number->setEnabled(init);
+        ui->stu_status_of_student_status->setEnabled(init);
+        ui->account_in_time->clear();
     }
     else {
         bool init = false;
@@ -171,7 +170,6 @@ void IN_OUT_ACCOUNT_PAGE::on_tabWidget_currentChanged(int index)
         ui->stu_status_of_student_status_2->setEnabled(init);
         ui->account_in_time_2->setEnabled(init);
         ui->account_out_time_2->setEnabled(init);
-        ui->okButton_2->setEnabled(init);
     }
 }
 
@@ -235,11 +233,18 @@ void IN_OUT_ACCOUNT_PAGE::on_okButton_clicked()
     account_info.stu_sex = ui->stu_sex->text();
     account_info.stu_indentification_number = ui->stu_indentification_number->text();
     account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
-    account_info.account_in_time = ui->account_in_time->text();
     if (!isDate(ui->account_in_time->text())){
         QMessageBox::warning(this, "警告", "日期格式错误");
         return;
     }
+    QStringList list = ui->account_in_time->text().split('-');
+    if (list[1].size() == 1){
+        list[1] = '0' + list[1];
+    }
+    if (list[2].size() == 1){
+        list[2] = '0' + list[2];
+    }
+    account_info.account_in_time = list[0] + list[1] + list[2];
     account_info.photoPath = photoPath_;
     emit addAccount(account_info);
 }
@@ -252,15 +257,18 @@ void IN_OUT_ACCOUNT_PAGE::on_okButton_2_clicked()
         return;
     }
     account_info.stu_ID = ui->stu_ID_2->text().toInt();
-    account_info.account_out_time = ui->account_out_time_2->text();
     if (!isDate(ui->account_out_time_2->text())){
         QMessageBox::warning(this, "警告", "日期格式错误");
         return;
     }
-    if (ui->account_out_time_2->text() < ui->account_in_time_2->text()){
-        QMessageBox::warning(this, "警告", "出户时间不能比入户时间早");
-        return;
+    QStringList list = ui->account_out_time_2->text().split('-');
+    if (list[1].size() == 1){
+        list[1] = '0' + list[1];
     }
+    if (list[2].size() == 1){
+        list[2] = '0' + list[2];
+    }
+    account_info.account_out_time = list[0] + list[1] + list[2];
     emit addOutAccountTime(account_info);
 }
 
@@ -293,5 +301,5 @@ void IN_OUT_ACCOUNT_PAGE::on_importButton_clicked()
 
 void IN_OUT_ACCOUNT_PAGE::on_importButton_2_clicked()
 {
-
+    on_importButton_clicked();
 }

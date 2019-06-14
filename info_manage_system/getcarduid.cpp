@@ -67,3 +67,31 @@ void GetCardUID::on_clearButton_clicked()
     ui->card_ID_edit->clear();
     ui->stu_ID_edit->clear();
 }
+
+void GetCardUID::on_untiedBut_clicked()
+{
+    if (ui->stu_ID_edit->text().isEmpty()){
+        QMessageBox::warning(nullptr, "警告", "学号不可为空");
+    }
+    else{
+        Card_info card;
+        card.stu_ID = ui->stu_ID_edit->text().toInt();
+        emit unitedCard(card);
+    }
+}
+
+void GetCardUID::on_searchBut_clicked()
+{
+    if (ui->stu_ID_edit->text().isEmpty()){
+        QMessageBox::warning(nullptr, "警告", "学号不可为空");
+    }
+    else {
+        Card_info card;
+        card.stu_ID = ui->stu_ID_edit->text().toInt();
+        emit searchCardUID(card);
+    }
+}
+
+void GetCardUID::searchCardUIDRes(Card_info card){
+    ui->card_ID_edit->setText(card.card_ID);
+}

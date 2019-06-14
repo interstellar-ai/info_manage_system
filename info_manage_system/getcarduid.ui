@@ -141,12 +141,12 @@
               </font>
              </property>
              <property name="text">
-              <string>录入</string>
+              <string>绑定</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="entryButton_2">
+            <widget class="QPushButton" name="untiedBut">
              <property name="font">
               <font>
                <family>Agency FB</family>
@@ -154,12 +154,12 @@
               </font>
              </property>
              <property name="text">
-              <string>删除</string>
+              <string>解绑</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="entryButton_3">
+            <widget class="QPushButton" name="searchBut">
              <property name="font">
               <font>
                <family>Agency FB</family>
