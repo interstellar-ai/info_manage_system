@@ -244,7 +244,7 @@ void IN_OUT_ACCOUNT_PAGE::on_okButton_clicked()
     if (list[2].size() == 1){
         list[2] = '0' + list[2];
     }
-    account_info.account_in_time = list[0] + list[1] + list[2];
+    account_info.account_in_time = list[0] + '-' + list[1] + '-' +list[2];
     account_info.photoPath = photoPath_;
     emit addAccount(account_info);
 }
@@ -268,7 +268,7 @@ void IN_OUT_ACCOUNT_PAGE::on_okButton_2_clicked()
     if (list[2].size() == 1){
         list[2] = '0' + list[2];
     }
-    account_info.account_out_time = list[0] + list[1] + list[2];
+    account_info.account_out_time = list[0] + '-' + list[1] + '-' +list[2];
     emit addOutAccountTime(account_info);
 }
 
@@ -302,4 +302,16 @@ void IN_OUT_ACCOUNT_PAGE::on_importButton_clicked()
 void IN_OUT_ACCOUNT_PAGE::on_importButton_2_clicked()
 {
     on_importButton_clicked();
+}
+
+
+void IN_OUT_ACCOUNT_PAGE::on_deleteBut_clicked()
+{
+    if (ui->stu_ID_2->text().isEmpty()){
+        QMessageBox::warning(this, "警告", "学号不能为空");
+        return;
+    }
+    Account_info account;
+    account.stu_ID = ui->stu_ID_2->text().toInt();
+    emit deleteAccount(account);
 }

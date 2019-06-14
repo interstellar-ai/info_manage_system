@@ -225,7 +225,7 @@ void ACCOUNT_CARD_BORROW_PAGE::on_okButton_clicked()
     }
     borwCard.stu_ID = ui->stu_ID->text().toInt();
     borwCard.reason = ui->reason->text();
-    borwCard.borrowDate = list[0] + list[1] + list[2];
+    borwCard.borrowDate = list[0] + '-' + list[1] + '-' +list[2];
     borwCard.photoPath = photoPath_;
     emit addBorrowDate(borwCard);
 }
@@ -250,7 +250,7 @@ void ACCOUNT_CARD_BORROW_PAGE::on_okButton_2_clicked()
     }
     borwCard.stu_ID = ui->stu_ID_2->text().toInt();
     borwCard.borrowDate = ui->borrow_time_2->text();
-    borwCard.backDate = list[0] + list[1] + list[2];
+    borwCard.backDate = list[0] + '-' + list[1] + '-' +list[2];
 //    qDebug() << borwCard.backDate;
     emit addBackDate(borwCard);
 }

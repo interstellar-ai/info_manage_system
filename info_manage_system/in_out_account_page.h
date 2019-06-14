@@ -32,6 +32,7 @@ signals:
     void addOutAccountTime(Account_info account_info);
     void getCard_ID(Card_info card);
     void import_account_info(QString);
+    void deleteAccount(Account_info);
 
 
 public slots:
@@ -61,6 +62,8 @@ private slots:
     void on_importButton_clicked();
 
     void on_importButton_2_clicked();
+
+    void on_deleteBut_clicked();
 
 private:
     void set_pushButton();

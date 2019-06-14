@@ -40,7 +40,7 @@ QPushButton::tab:selected, QTabBar::tab:hover {
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -1125,7 +1125,7 @@ padding:2px 4px;</string>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="searchButton_2">
+              <widget class="QPushButton" name="deleteBut">
                <property name="minimumSize">
                 <size>
                  <width>200</width>

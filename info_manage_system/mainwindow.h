@@ -84,6 +84,8 @@ private slots:
 
     void searchCardUID(Card_info);
 
+    void deleteAccount(Account_info);
+
 private:
     void set_pushButton();
     void init();

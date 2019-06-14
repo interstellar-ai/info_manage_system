@@ -28,14 +28,14 @@ void SearchPage::on_searchButton_clicked()
     account_info.stu_sex = ui->stu_sex->text();
     account_info.stu_indentification_number = ui->stu_indentification_number->text();
     account_info.stu_status_of_student_status = ui->stu_status_of_student_status->text();
-    account_info.account_in_time = ui->account_in_time->text();
-    account_info.account_out_time = ui->account_out_time->text();
+//    account_info.account_in_time = ui->account_in_time->text();
+//    account_info.account_out_time = ui->account_out_time->text();
 
     BorrowCard card;
     card.stu_ID = ui->stu_ID->text().toInt();
     card.reason = ui->reason->text();
-    card.borrowDate = ui->borrow_time->text();
-    card.backDate = ui->return_time->text();
+//    card.borrowDate = ui->borrow_time->text();
+//    card.backDate = ui->return_time->text();
 
     if (!ui->account_in_time->text().isEmpty() && !isDate(ui->account_in_time->text())){
         QMessageBox::warning(this, "警告", "日期格式错误");
@@ -59,7 +59,27 @@ void SearchPage::on_searchButton_clicked()
     }
     rowCur = 0;
 
+    account_info.account_in_time = dealDate(ui->account_in_time->text());
+    account_info.account_out_time = dealDate(ui->account_out_time->text());
+    card.borrowDate = dealDate(ui->borrow_time->text());
+    card.backDate = dealDate(ui->return_time->text());
+
     emit searchByMultiCodt(account_info, card);
+}
+
+QString SearchPage::dealDate(QString str){
+    if (str.isEmpty()){
+        return str;
+    }
+    QStringList list = str.split('-');
+    if (list[1].size() == 1){
+        list[1] = '0' + list[1];
+    }
+    if (list[2].size() == 1){
+        list[2] = '0' + list[2];
+    }
+    QString date = list[0] + '-' + list[1] + '-' +list[2];
+    return  date;
 }
 
 void SearchPage::searchResult_m(Account_info account, BorrowCard card){

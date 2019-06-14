@@ -38,6 +38,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+
 void MainWindow::init(){
     connect(ui->log_in_page, &Login_page::login_usr_passwd,
             this, &MainWindow::connect_database);
@@ -96,12 +98,25 @@ void MainWindow::init(){
             this, &MainWindow::borrow_record_import);
     connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::import_account_info,
             this, &MainWindow::import_account_info);
-
+    connect(ui->in_out_account_page, &IN_OUT_ACCOUNT_PAGE::deleteAccount,
+            this, &MainWindow::deleteAccount);
     createDir();
 }
 
 void MainWindow::import_account_info(QString excel){
 
+}
+
+void MainWindow::deleteAccount(Account_info account){
+    qsQuery.prepare("delete from stu_info where stu_ID  = :stu_ID_");
+    qsQuery.bindValue(":stu_ID_", account.stu_ID);
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+    }
+    else {
+        QMessageBox::information(this, "提示", "删除成功");
+    }
 }
 
 void MainWindow::borrow_record_import(QString excelFile){
@@ -122,7 +137,10 @@ void MainWindow::searchCardUID(Card_info card){
         QMessageBox::warning(this, "警告", error.text());
         return;
     }
-    card.card_ID = qsQuery.value("card_ID").toString();
+    if(qsQuery.last()){
+        card.card_ID = qsQuery.value(0).toString();
+//    qDebug() << card.card_ID;
+    }
     emit searchCardUIDRes(card);
 }
 
@@ -386,6 +404,19 @@ void MainWindow::addAccount(Account_info account_info){
 }
 
 void MainWindow::save_UID_StuID(Card_info card_info){
+    qsQuery.prepare("select * from card where card_ID = :card_ID_");
+    qsQuery.bindValue(":card_ID_", card_info.card_ID);
+    qDebug() << card_info.card_ID;
+    if (!qsQuery.exec()){
+        QSqlError error(qsQuery.lastError());
+        QMessageBox::warning(this, "警告", error.text());
+        return;
+    }
+    if(qsQuery.first()){
+        QMessageBox::warning(this, "警告", "此卡已被绑定");
+        return;
+    }
+
     qsQuery.prepare("select * from card where stu_ID = :stu_ID_");
     qsQuery.bindValue(":stu_ID_", card_info.stu_ID);
     if (!qsQuery.exec()){
@@ -396,29 +427,22 @@ void MainWindow::save_UID_StuID(Card_info card_info){
     if(qsQuery.first()){
         int res = QMessageBox::question(this, "提示", "此学号已绑定卡，确定绑定新卡吗？",
                               QMessageBox::Ok, QMessageBox::Cancel);
-        if (res == 0){
-            qsQuery.prepare("select * from card where card_ID = :card_ID_");
-            qsQuery.bindValue(":card_ID_", card_info.card_ID);
-            if (!qsQuery.exec()){
-                QSqlError error(qsQuery.lastError());
-                QMessageBox::warning(this, "警告", error.text());
-                return;
-            }
-            if(qsQuery.first()){
-                QMessageBox::warning(this, "警告", "此卡已被绑定");
-                return;
-            }
+//        qDebug() << res;
+        if (res == 1024){
             qsQuery.prepare("update card set card_ID = :card_ID_ where stu_ID = :stu_ID_");
+            qDebug() << "?????????????";
         }
         else {
             return;
         }
     }
     else {
+
         qsQuery.prepare("INSERT INTO card(card_ID, stu_ID)"
                         "VALUES"
                         "(:card_ID_, :stu_ID_)");
     }
+
     qsQuery.bindValue(":card_ID_", card_info.card_ID);
     qsQuery.bindValue(":stu_ID_", card_info.stu_ID);
     if (!qsQuery.exec()){

@@ -35,6 +35,7 @@ private:
     Ui::SearchPage *ui;
     int rowCur = 0;
     bool isDate(QString);
+    QString dealDate(QString);
 };
 
 #endif // SEARCHPAGE_H

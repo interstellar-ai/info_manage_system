@@ -57,7 +57,7 @@ void GetCardUID::on_entryButton_clicked()
         return;
     }
     Card_info card_info;
-    card_info.card_ID = ui->card_ID_edit->text();
+    card_info.card_ID = ui->card_ID_edit->text().split("\r\n")[0];
     card_info.stu_ID = ui->stu_ID_edit->text().toInt();
     emit save_UID_StuID(card_info);
 }
