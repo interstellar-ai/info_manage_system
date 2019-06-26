@@ -353,6 +353,7 @@ void MainWindow::createMySQL_Table(){
     }
 }
 
+
 void MainWindow::connect_database(QString usr, QString passwd){
     db = QSqlDatabase::addDatabase("QODBC");
     db.setHostName("127.0.0.1");
